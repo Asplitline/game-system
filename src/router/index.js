@@ -19,9 +19,12 @@ const aGame = () => import(/*  webpackChunkName: "admin_game" */ '@/components/a
 const aLog = () => import(/*  webpackChunkName: "admin_log" */ '@/components/admin/log/Log')
 const aPost = () => import(/*  webpackChunkName: "admin_post" */ '@/components/admin/post/Post')
 const aUser = () => import(/*  webpackChunkName: "admin_user" */ '@/components/admin/user/User')
+const aNotice = () => import(/*  webpackChunkName: "admin_notice" */ '@/components/admin/notice/Notice')
 
 // -
 const Login = () => import(/*  webpackChunkName: "login_home_admin" */ '@/components/Login')
+// -
+const Error = () => import(/*  webpackChunkName: "error" */ '@/components/common/Error')
 
 Vue.use(VueRouter)
 
@@ -43,20 +46,26 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: Admin,
-    redirect: '/user',
+    redirect: '/_user',
     children: [
-      { path: '/category', component: aCategory },
-      { path: '/comment', component: aComment },
-      { path: '/game', component: aGame },
-      { path: '/log', component: aLog },
-      { path: '/post', component: aPost },
-      { path: '/user', component: aUser }
+      { path: '/_category', component: aCategory },
+      { path: '/_comment', component: aComment },
+      { path: '/_game', component: aGame },
+      { path: '/_log', component: aLog },
+      { path: '/_post', component: aPost },
+      { path: '/_user', component: aUser },
+      { path: '/_notice', component: aNotice },
     ]
   },
   {
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '*',
+    name: 'Error',
+    component: Error
   }
 ]
 

@@ -1,0 +1,39 @@
+.el-breadcrumb {
+  font-size: 18px;
+}
+.el-table {
+  border: 1px solid #00000012;
+}
+.el-table .el-link {
+  font-size: 16px;
+  margin-right: 6px;
+}
+.top-search {
+  margin-bottom: 24px;
+}
+.top-search /deep/ .el-input__inner {
+  border-radius: 20px;
+}
+.top-search .add-button {
+  background-color: #42b983;
+  color: #fff;
+  font-size: 16px;
+  vertical-align: top;
+  transition: transform 0.3s linear;
+}
+.top-search .add-button:hover {
+  transform: scale(1.2);
+  box-shadow: 1px 1px 1px 1px rgba(66, 185, 131, 0.5);
+}
+.top-search .add-button::before {
+  margin-right: 4px;
+  font-weight: 600;
+}
+.el-pagination {
+  margin-top: 10px;
+}
+.el-menu--horizontal .el-menu .el-menu-item {
+  font-size: 20px;
+  text-indent: 2em;
+  letter-spacing: 6px;
+}
