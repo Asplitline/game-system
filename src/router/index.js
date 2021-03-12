@@ -18,6 +18,7 @@ const aComment = () => import(/*  webpackChunkName: "admin_comment" */ '@/compon
 const aGame = () => import(/*  webpackChunkName: "admin_game" */ '@/components/admin/game/Game')
 const aLog = () => import(/*  webpackChunkName: "admin_log" */ '@/components/admin/log/Log')
 const aPost = () => import(/*  webpackChunkName: "admin_post" */ '@/components/admin/post/Post')
+const aAddPost = () => import(/*  webpackChunkName: "admin_addPost" */ '@/components/admin/post/addPost')
 const aUser = () => import(/*  webpackChunkName: "admin_user" */ '@/components/admin/user/User')
 const aNotice = () => import(/*  webpackChunkName: "admin_notice" */ '@/components/admin/notice/Notice')
 
@@ -53,8 +54,9 @@ const routes = [
       { path: '/_game', component: aGame },
       { path: '/_log', component: aLog },
       { path: '/_post', component: aPost },
+      { path: '/_AddPost', component: aAddPost },
       { path: '/_user', component: aUser },
-      { path: '/_notice', component: aNotice },
+      { path: '/_notice', component: aNotice }
     ]
   },
   {

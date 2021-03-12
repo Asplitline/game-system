@@ -14,8 +14,6 @@
           </el-input>
         </el-col>
         <el-col :span="6" :offset="12">
-          <!-- <el-button class="el-icon-circle-plus-outline add-button" size="medium">添加游戏
-          </el-button> -->
           <span></span>
         </el-col>
       </el-row>
@@ -24,7 +22,7 @@
         </el-table-column>
         <el-table-column prop="name" label="作者" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="评论人" min-width="180">
+        <el-table-column prop="name" label="评论者" min-width="180">
         </el-table-column>
         <el-table-column prop="name" label="创建时间" min-width="180">
         </el-table-column>
@@ -66,5 +64,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~@/assets/css/common.css';
+@import '~@/assets/css/common.less';
 </style>

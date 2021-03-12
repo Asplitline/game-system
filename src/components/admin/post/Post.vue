@@ -14,23 +14,22 @@
           </el-input>
         </el-col>
         <el-col :span="6" :offset="12">
-          <el-button class="el-icon-circle-plus-outline add-button" size="medium">添加帖子
+          <el-button class="el-icon-circle-plus-outline add-button" size="medium"
+            @click="goPostAdd()">添加帖子
           </el-button>
           <span></span>
         </el-col>
       </el-row>
       <el-table :data="postList" stripe style="width: 100%">
-        <el-table-column prop="date" label="标题" width="180">
+        <el-table-column prop="date" label="标题" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="作者" width="180">
+        <el-table-column prop="name" label="作者" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="简介" width="180">
+        <el-table-column prop="name" label="发帖时间" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="发帖时间" width="180">
+        <el-table-column prop="name" label="更新时间" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="更新时间" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column min-width="180" label="操作">
           <el-button type="primary" size="small">修改</el-button>
           <el-button type="success" size="small">详情</el-button>
           <el-button type="danger" size="small">删除</el-button>
@@ -63,11 +62,15 @@ export default {
     },
     handleCurrentChange(current) {
       this.query.page = current
+    },
+    goPostAdd() {
+      console.log(123)
+      this.$router.push('/_addPost')
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-@import '~@/assets/css/common.css';
+@import '~@/assets/css/common.less';
 </style>

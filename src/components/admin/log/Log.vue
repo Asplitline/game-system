@@ -14,21 +14,19 @@
           </el-input>
         </el-col>
         <el-col :span="6" :offset="12">
-          <!-- <el-button class="el-icon-circle-plus-outline add-button" size="medium">添加游戏
-          </el-button> -->
           <span></span>
         </el-col>
       </el-row>
       <el-table :data="logList" stripe style="width: 100%">
-        <el-table-column prop="date" label="日志内容" min-width="180">
+        <el-table-column prop="description" label="日志内容" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="日志类型" min-width="180">
+        <el-table-column prop="lx" label="日志类型" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="操作地址" min-width="180">
+        <el-table-column prop="ip" label="操作地址" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="操作时间" min-width="180">
+        <el-table-column prop="createTime" label="操作时间" min-width="180">
         </el-table-column>
-        <el-table-column prop="address" label="操作" min-width="180">
+        <el-table-column label="操作" min-width="180">
           <el-button type="danger" size="small">删除</el-button>
         </el-table-column>
       </el-table>
@@ -41,6 +39,7 @@
 </template>
 
 <script>
+import { getLogList } from '@api'
 export default {
   data() {
     return {
@@ -52,9 +51,19 @@ export default {
       total: 10,
       logList: [{}]
     }
+  },
+  methods: {
+    async fetchLog() {
+      const { list, total } = await getLogList(this.query)
+      this.logList = list
+      this.total = total
+    }
+  },
+  created() {
+    this.fetchLog()
   }
 }
 </script>
 <style lang="less" scoped>
-@import '~@/assets/css/common.css';
+@import '~@/assets/css/common.less';
 </style>

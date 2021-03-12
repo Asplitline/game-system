@@ -20,19 +20,17 @@
         </el-col>
       </el-row>
       <el-table :data="gameList" stripe style="width: 100%">
-        <el-table-column prop="date" label="名称" width="180">
+        <el-table-column prop="date" label="名称" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="描述" width="180">
+        <el-table-column prop="name" label="描述" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="游戏类型" width="180">
+        <el-table-column prop="name" label="游戏类型" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="添加时间" width="180">
+        <el-table-column prop="name" label="添加时间" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="更新时间" width="180">
+        <el-table-column prop="name" label="游戏评分" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="收藏次数" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column label="操作" min-width="180">
           <el-button type="primary" size="small">编辑</el-button>
           <el-button type="success" size="small">详情</el-button>
           <el-button type="danger" size="small">删除</el-button>
@@ -71,5 +69,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~@/assets/css/common.css';
+@import '~@/assets/css/common.less';
 </style>
