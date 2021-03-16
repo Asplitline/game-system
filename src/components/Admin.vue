@@ -12,23 +12,22 @@
           </el-menu-item>
           <el-submenu index="2" class="user-info">
             <template slot="title">
-              <el-avatar size="large"
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+              <el-avatar size="large" :src="bindURL(currentUser.avatarImgUrl)">
               </el-avatar>
             </template>
             <el-menu-item index="2-1"><i class="iconfont icon-user1">个人信息</i>
             </el-menu-item>
             <el-menu-item index="2-2"><i class="iconfont icon-home">前往主页</i>
             </el-menu-item>
-            <el-menu-item index="2-1"><i class="iconfont icon-logout">退出系统</i>
+            <el-menu-item @click="logout()"><i class="iconfont icon-logout">退出系统</i>
             </el-menu-item>
           </el-submenu>
-        </el-menu>
+      </el-menu>
       </el-header>
       <!-- 主体内容 -->
       <el-container>
         <el-aside width="240px" class="aside">
-          <el-menu default-active="1-4-1" router active-text-color="#41b883">
+          <el-menu :default-active="aCurrentIndex" router active-text-color="#41b883">
             <el-menu-item index="/_user">
               <i class="icon-user1 iconfont"></i>
               <span slot="title">用户管理</span>
@@ -68,11 +67,29 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
+import { bindURL } from '@utils'
 export default {
   data() {
     return {}
   },
-  methods: {}
+  methods: {
+    ...mapMutations(['setACurrentIndex']),
+    bindURL,
+    login() {
+      console.log('123')
+    },
+    logout() {
+      sessionStorage.clear()
+      this.$router.push('/login')
+    }
+  },
+  computed: {
+    ...mapState(['aCurrentIndex', 'currentUser'])
+  },
+  updated() {
+    this.setACurrentIndex()
+  }
 }
 </script>
 
@@ -96,6 +113,7 @@ export default {
     margin: 0;
     font-size: 26px;
   }
+
   .el-menu--horizontal > .el-menu-item.is-active {
     border-bottom: none;
   }
@@ -124,6 +142,10 @@ export default {
         }
       }
     }
+  }
+
+  /deep/.el-submenu.is-active .el-submenu__title {
+    border-color: transparent;
   }
 }
 </style>

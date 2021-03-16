@@ -20,7 +20,9 @@ module.exports = {
                 return args
             })
         })
-        config.resolve.alias.set('@api', load('src/api'))
+        config.resolve.alias
+            .set('@api', load('src/api'))
+            .set('@utils', load('src/utils'))
     }
 
 }

@@ -32,6 +32,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'Index',
+    redirect: '/login'
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home,
     redirect: '/index',
@@ -72,7 +77,35 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
+
+router.beforeEach((to, from, next) => {
+  switch (to.path) {
+    case '/_category':
+    case '/_comment':
+    case '/_game':
+    case '/_log':
+    case '/_post':
+    case '/_AddPost':
+    case '/_user':
+    case '/_notice':
+      window.sessionStorage.setItem('aCurrentIndex', to.path)
+      break
+    case '/game':
+    case '/index':
+    case '/info':
+    case '/rank':
+    case '/share':
+      window.sessionStorage.setItem('hCurrentIndex', to.path)
+      break
+  }
+  if (sessionStorage.getItem('currentUser') === null && to.path !== '/login') {
+    next('/login')
+  } else {
+    next()
+  }
+})
 export default router

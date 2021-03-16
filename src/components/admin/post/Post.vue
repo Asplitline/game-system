@@ -21,13 +21,13 @@
         </el-col>
       </el-row>
       <el-table :data="postList" stripe style="width: 100%">
-        <el-table-column prop="date" label="标题" min-width="180">
+        <el-table-column prop="title" label="标题" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="作者" min-width="180">
+        <el-table-column prop="authorId" label="作者" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="发帖时间" min-width="180">
+        <el-table-column prop="createTime" label="发帖时间" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="更新时间" min-width="180">
+        <el-table-column prop="updateTime" label="更新时间" min-width="180">
         </el-table-column>
         <el-table-column min-width="180" label="操作">
           <el-button type="primary" size="small">修改</el-button>
@@ -40,10 +40,13 @@
         :total="total">
       </el-pagination>
     </el-card>
+    {{filterPost}}
   </div>
 </template>
 
 <script>
+import { _getPost } from '@api'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -53,20 +56,44 @@ export default {
         keyword: null
       },
       total: 10,
-      postList: [{}]
+      postList: []
     }
   },
   methods: {
+    ...mapActions(['fetchAllUser']),
     handleSizeChange(size) {
       this.query.size = size
     },
     handleCurrentChange(current) {
       this.query.page = current
     },
+    // 跳转到发布文章
     goPostAdd() {
-      console.log(123)
       this.$router.push('/_addPost')
+    },
+    // 获取文章
+    async fetchPost() {
+      const { list, total } = await _getPost(this.query)
+      this.postList = list
+      this.total = total
     }
+  },
+  computed: {
+    ...mapState(['allUser']),
+    filterPost() {
+      this.postList.forEach((p) => {
+        const post = this.allUser.find((item) => {
+          return item.id === p.authorId
+        })
+        item.author = post && post.name
+      })
+      console.log(this.postList)
+      return 1
+    }
+  },
+  created() {
+    this.fetchPost()
+    this.fetchAllUser()
   }
 }
 </script>

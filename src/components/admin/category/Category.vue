@@ -54,6 +54,16 @@ export default {
       total: 10,
       gameList: [{}]
     }
+  },
+  methods: {
+    handleSizeChange(size) {
+      this.query.size = size
+      this.fetchUser()
+    },
+    handleCurrentChange(current) {
+      this.query.page = current
+      this.fetchUser()
+    }
   }
 }
 </script>

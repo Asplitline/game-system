@@ -31,3 +31,25 @@ export function _post (url) {
         })
     }
 }
+
+export function _delete (url) {
+    return function (params) {
+        return $http.delete(url + '/' + params)
+            .then(res => {
+                return res.data
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+}
+
+export function _put (url) {
+    return function (params) {
+        return $http.put(url, params)
+            .then(res => {
+                return res.data
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+}

@@ -21,6 +21,10 @@
         <el-table-column prop="description" label="日志内容" min-width="180">
         </el-table-column>
         <el-table-column prop="lx" label="日志类型" min-width="180">
+          <template v-slot="{row}">
+            <el-tag :type="logName[row.lx].type" v-if="logName[row.lx]">
+              {{logName[row.lx].name}}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column prop="ip" label="操作地址" min-width="180">
         </el-table-column>
@@ -39,7 +43,7 @@
 </template>
 
 <script>
-import { getLogList } from '@api'
+import { _getLogList } from '@api'
 export default {
   data() {
     return {
@@ -49,12 +53,25 @@ export default {
         keyword: null
       },
       total: 10,
-      logList: [{}]
+      logList: [{}],
+      logName: [
+        {},
+        { name: '操作日志', type: 'primary' },
+        { name: '登录日志', type: 'danger' }
+      ]
     }
   },
   methods: {
+    handleSizeChange(size) {
+      this.query.size = size
+      this.fetchUser()
+    },
+    handleCurrentChange(current) {
+      this.query.page = current
+      this.fetchUser()
+    },
     async fetchLog() {
-      const { list, total } = await getLogList(this.query)
+      const { list, total } = await _getLogList(this.query)
       this.logList = list
       this.total = total
     }
