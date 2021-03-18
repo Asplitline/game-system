@@ -11,7 +11,7 @@
         <el-col :span="6">
           <el-input placeholder="请输入内容" v-model="query.keyword" class="search-ipt"
             @keyup.enter.native="fetchUser()" :clearable="true" @clear="fetchUser()"
-            @keyup.esc.native="clearIpt()">
+            @keyup.esc.native="clearIpt(fetchUser)">
             <i slot="prefix" class="el-input__icon el-icon-search search-icon"></i>
           </el-input>
         </el-col>
@@ -48,19 +48,21 @@
             </el-button>
             <el-button type="warning" size="small" @click="resetPassword(row.id)">重置
             </el-button>
-            <el-button type="danger" size="small" @click="deleteUserById(row.id)">删除
+            <el-button type="danger" size="small"
+              @click="deleteById(_deleteUser,fetchUser,row.id,'用户')">删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+      <el-pagination @size-change="handleSizeChange(fetchUser,$event)"
+        @current-change="handleCurrentChange(fetchUser,$event)"
         :page-sizes="[1, 2, 5, 10]" layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
     </el-card>
 
     <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="30%"
-      class="edit-dialog" @close="handleClose('editUserForm')"
+      class="edit-dialog" @close="clearDialog('editUserForm')"
       :close-on-click-modal="false">
       <el-form :model="editUserForm" :rules="editUserRules" ref="editUserForm" size="mini"
         :hide-required-asterisk="true" class="edit-form">
@@ -117,6 +119,7 @@ import {
   _putEditUser
 } from '@api'
 import { convertDeepCopy, bindURL, validateEmail } from '@utils'
+import { aMixin } from '@mixins'
 const DEFAULT_PASSWORD = 123456
 export default {
   data() {
@@ -149,26 +152,12 @@ export default {
   },
   methods: {
     bindURL,
-    // 最大页
-    handleSizeChange(size) {
-      this.query.size = size
-      this.fetchUser()
-    },
-    // 当前页
-    handleCurrentChange(current) {
-      this.query.page = current
-      this.fetchUser()
-    },
+    _deleteUser,
     // 获取用户
     async fetchUser() {
       const { list, total } = await _getUserList(this.query)
       this.userList = list
       this.total = total
-    },
-    // 清除搜索框
-    clearIpt() {
-      this.query.keyword = null
-      this.fetchUser()
     },
     // 显示修改对话框
     showEditUserDialog(row) {
@@ -216,33 +205,9 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
-    },
-    // 通过id删除用户
-    deleteUserById(id) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'error',
-        center: true
-      })
-        .then(async () => {
-          const { success, message } = await _deleteUser(id)
-          if (success) {
-            this.$message.success(message)
-            this.fetchUser()
-          } else {
-            this.$message.error(success)
-          }
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
-        })
-    },
-    // 关闭后回调
-    handleClose(formName) {
-      this.$refs[formName].resetFields()
     }
   },
+  mixins: [aMixin],
   created() {
     this.fetchUser()
   }

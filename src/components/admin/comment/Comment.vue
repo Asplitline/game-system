@@ -9,26 +9,36 @@
       <el-divider></el-divider>
       <el-row :gutter="20" class="top-search">
         <el-col :span="6">
-          <el-input placeholder="请输入内容" v-model="query.keyword">
+          <!-- <el-input placeholder="请输入内容" v-model="query.keyword">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+          </el-input> -->
         </el-col>
         <el-col :span="6" :offset="12">
           <span></span>
         </el-col>
       </el-row>
       <el-table :data="commentList" stripe style="width: 100%">
-        <el-table-column prop="date" label="文章标题" min-width="180">
+        <el-table-column prop="postId" label="文章标题" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="作者" min-width="180">
+        <el-table-column prop="content" label="评论内容" min-width="180">
         </el-table-column>
-        <el-table-column prop="name" label="评论者" min-width="180">
+        <el-table-column prop="userId" label="评论用户" min-width="180">
+          <template v-slot="{row}">
+            {{findUserNameById(row.userId) }}
+          </template>
         </el-table-column>
-        <el-table-column prop="name" label="创建时间" min-width="180">
+        <el-table-column prop="createTime" label="创建时间" min-width="180">
+          <template v-slot="{row}">
+            {{row.createTime|formatDate}}
+          </template>
         </el-table-column>
-        <el-table-column prop="address" label="操作" min-width="180">
-          <el-button type="success" size="small">详情</el-button>
-          <el-button type="danger" size="small">删除</el-button>
+        <el-table-column label="操作" min-width="180">
+          <template v-slot="{row}">
+            <el-button type="success" size="small">详情</el-button>
+            <el-button type="danger" size="small"
+              @click="deleteById(_deleteComment,fetchComment,row.id,'评论')">删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
@@ -40,29 +50,53 @@
 </template>
 
 <script>
+import { _getComment, _deleteComment } from '@api'
+import { aMixin } from '@mixins'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
       query: {
-        page: 1,
-        size: 10,
-        keyword: null
+        pageNum: 1,
+        pageSize: 10
       },
       total: 10,
       commentList: [{}]
     }
   },
   methods: {
+    ...mapActions(['fetchAllUser']),
+    _deleteComment,
+    // 获取评论
+    async fetchComment() {
+      const { totalPageSize, comments } = await _getComment(this.query)
+      this.commentList = comments
+      this.total = totalPageSize
+    },
     handleSizeChange(size) {
-      this.query.size = size
+      this.query.pageSize = size
+      this.fetchComment()
     },
     handleCurrentChange(current) {
-      this.query.page = current
+      this.query.pageNum = current
+      this.fetchComment()
     }
-  }
+  },
+  computed: {
+    ...mapGetters(['findUserNameById'])
+  },
+  created() {
+    this.fetchComment()
+    this.fetchAllUser()
+  },
+  mixins: [aMixin]
 }
 </script>
 
 <style lang="less" scoped>
 @import '~@/assets/css/common.less';
+
+.top-search {
+  margin: 0;
+}
 </style>

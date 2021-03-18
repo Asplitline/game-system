@@ -9,9 +9,11 @@
       <el-divider></el-divider>
       <el-row :gutter="20" class="top-search">
         <el-col :span="6">
-          <el-input placeholder="请输入内容" v-model="query.keyword">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+          <el-input placeholder="请输入内容" v-model="query.keyword" class="search-ipt"
+            @keyup.enter.native="fetchPost()" :clearable="true" @clear="fetchPost()"
+            @keyup.esc.native="clearIpt(fetchPost)"> <i slot="prefix"
+              class="el-input__icon el-icon-search search-icon"></i></el-input>
+
         </el-col>
         <el-col :span="6" :offset="12">
           <el-button class="el-icon-circle-plus-outline add-button" size="medium"
@@ -20,80 +22,90 @@
           <span></span>
         </el-col>
       </el-row>
-      <el-table :data="postList" stripe style="width: 100%">
+      <el-table :data="filterPost" stripe style="width: 100%">
         <el-table-column prop="title" label="标题" min-width="180">
         </el-table-column>
-        <el-table-column prop="authorId" label="作者" min-width="180">
+        <el-table-column prop="author" label="作者" min-width="180">
         </el-table-column>
         <el-table-column prop="createTime" label="发帖时间" min-width="180">
+          <template v-slot="{row}">
+            {{row.createTime | formatDate}}
+          </template>
         </el-table-column>
         <el-table-column prop="updateTime" label="更新时间" min-width="180">
+          <template v-slot="{row}">
+            {{row.updateTime | formatDate}}
+          </template>
         </el-table-column>
         <el-table-column min-width="180" label="操作">
-          <el-button type="primary" size="small">修改</el-button>
-          <el-button type="success" size="small">详情</el-button>
-          <el-button type="danger" size="small">删除</el-button>
+          <template v-slot="{row}">
+            <el-button type="primary" size="small" @click="goPostEditById(row)">修改
+            </el-button>
+            <el-button type="success" size="small" @click="goPostDetailById(row.id)">详情
+            </el-button>
+            <el-button type="danger" size="small"
+              @click="deleteById(_deletePost,fetchPost,row.id,'文章')">删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+      <el-pagination @size-change="handleSizeChange(fetchPost,$event)"
+        @current-change="handleCurrentChange(fetchPost,$event)"
         :page-sizes="[1, 2, 5, 10]" layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
     </el-card>
-    {{filterPost}}
   </div>
 </template>
 
 <script>
-import { _getPost } from '@api'
+import { _getPostList, _deletePost } from '@api'
 import { mapActions, mapMutations, mapState } from 'vuex'
+import { aMixin } from '@mixins'
 export default {
   data() {
     return {
-      query: {
-        page: 1,
-        size: 10,
-        keyword: null
-      },
-      total: 10,
       postList: []
     }
   },
   methods: {
     ...mapActions(['fetchAllUser']),
-    handleSizeChange(size) {
-      this.query.size = size
-    },
-    handleCurrentChange(current) {
-      this.query.page = current
-    },
+    ...mapMutations(['setCurrentPost']),
+    _deletePost,
     // 跳转到发布文章
     goPostAdd() {
-      this.$router.push('/_addPost')
+      this.$router.push('/_dPost')
     },
     // 获取文章
     async fetchPost() {
-      const { list, total } = await _getPost(this.query)
+      const { list, total } = await _getPostList(this.query)
       this.postList = list
       this.total = total
-    }
+    },
+    goPostEditById(data) {
+      this.setCurrentPost(data)
+      this.$router.push('/_dPost/' + data.id)
+    },
+    goPostDetailById(data) {}
   },
   computed: {
     ...mapState(['allUser']),
+    // 添加作者字段
     filterPost() {
-      this.postList.forEach((p) => {
-        const post = this.allUser.find((item) => {
+      return this.postList.filter((p) => {
+        const user = this.allUser.find((item) => {
           return item.id === p.authorId
         })
-        item.author = post && post.name
+        user && (p.author = user.name)
+        return p
       })
-      console.log(this.postList)
-      return 1
     }
   },
+  mixins: [aMixin],
   created() {
     this.fetchPost()
     this.fetchAllUser()
+    // this.test(this.query)
   }
 }
 </script>

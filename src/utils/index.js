@@ -1,3 +1,5 @@
+import marked from 'marked'
+
 export function convertParams (params) {
     const result = []
     for (const key in params) {
@@ -26,4 +28,18 @@ export function validateEmail (rule, value, callback) {
             callback(new Error('请输入正确的邮箱格式'))
         }
     }, 100)
+}
+
+export function markdowntoHtml (val) {
+    return marked(val)
+}
+
+export function htmlToText (val) {
+    return marked(val)
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, '')
+        .replace(/<[^>]+?>/g, '')
+        .replace(/\s+/g, ' ')
+        .replace(/ /g, ' ')
+        .replace(/>/g, ' ')
+        .trim()
 }

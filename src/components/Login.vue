@@ -5,11 +5,10 @@
         <div class="login-box" v-if="!isActive">
           <h4>登录界面</h4>
           <div class="form-item">
-            <input type="text" placeholder="账号" v-model="loginForm.username">
+            <input type="text" placeholder="账号" v-model="loginForm.username" v-focus>
             <transition name="fade">
               <span class="error" v-show="loginRules.username">请输入账号</span>
             </transition>
-
           </div>
           <div class="form-item">
             <input type="password" placeholder="密码" v-model="loginForm.password"

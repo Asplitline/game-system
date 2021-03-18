@@ -17,12 +17,13 @@
             </template>
             <el-menu-item index="2-1"><i class="iconfont icon-user1">个人信息</i>
             </el-menu-item>
-            <el-menu-item index="2-2"><i class="iconfont icon-home">前往主页</i>
+            <el-menu-item index="2-2" @click=goToIndex()><i
+                class="iconfont icon-home">前往主页</i>
             </el-menu-item>
             <el-menu-item @click="logout()"><i class="iconfont icon-logout">退出系统</i>
             </el-menu-item>
           </el-submenu>
-      </el-menu>
+        </el-menu>
       </el-header>
       <!-- 主体内容 -->
       <el-container>
@@ -76,18 +77,19 @@ export default {
   methods: {
     ...mapMutations(['setACurrentIndex']),
     bindURL,
-    login() {
-      console.log('123')
+    goToIndex() {
+      console.log(123)
     },
     logout() {
       sessionStorage.clear()
+      this.setACurrentIndex()
       this.$router.push('/login')
     }
   },
   computed: {
     ...mapState(['aCurrentIndex', 'currentUser'])
   },
-  updated() {
+  created() {
     this.setACurrentIndex()
   }
 }

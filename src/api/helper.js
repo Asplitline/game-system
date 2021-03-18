@@ -31,10 +31,21 @@ export function _post (url) {
         })
     }
 }
-
-export function _delete (url) {
+/**
+ * 
+ * @param {*} url 
+ * @param {*} model  1(restful风格) 2(传统风格)
+ * @returns 
+ */
+export function _delete (url, model = 1) {
     return function (params) {
-        return $http.delete(url + '/' + params)
+        let URL
+        if (model === 1) {
+            URL = `${url}/${params}`
+        } else {
+            URL = `${url}?id=${params}`
+        }
+        return $http.delete(URL)
             .then(res => {
                 return res.data
             }).catch(err => {

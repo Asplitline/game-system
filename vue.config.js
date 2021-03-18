@@ -23,6 +23,7 @@ module.exports = {
         config.resolve.alias
             .set('@api', load('src/api'))
             .set('@utils', load('src/utils'))
+            .set('@mixins', load('src/mixins'))
     }
 
 }

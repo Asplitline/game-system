@@ -59,7 +59,8 @@ const routes = [
       { path: '/_game', component: aGame },
       { path: '/_log', component: aLog },
       { path: '/_post', component: aPost },
-      { path: '/_AddPost', component: aAddPost },
+      { path: '/_dPost/:id', component: aAddPost, props: true },
+      { path: '/_dPost', component: aAddPost, props: true },
       { path: '/_user', component: aUser },
       { path: '/_notice', component: aNotice }
     ]
