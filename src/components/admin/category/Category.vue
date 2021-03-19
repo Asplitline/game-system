@@ -96,8 +96,10 @@ export default {
       categoryList: [],
       categoryForm: {},
       categoryRules: {
-        name: [{ required: true, message: '请输入', trigger: 'blur' }],
-        description: [{ required: true, message: '请输入', trigger: 'blur' }]
+        name: [{ required: true, message: '请输入游戏分类', trigger: 'blur' }],
+        description: [
+          { required: true, message: '请输入分类说明', trigger: 'blur' }
+        ]
       },
       categoryDialogVisible: false
     }

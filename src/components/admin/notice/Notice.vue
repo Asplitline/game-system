@@ -59,19 +59,18 @@
       :visible.sync="noticeDialogVisible" width="30%" @close="clearDialog('noticeForm')">
       <el-form :model="noticeForm" :rules="noticeRules" ref="noticeForm"
         class="notice-form" :hide-required-asterisk="true">
-        <el-form-item label="公告标题" prop="name">
-          <el-input v-model="noticeForm.name"></el-input>
+        <el-form-item label="公告标题" prop="title">
+          <el-input v-model="noticeForm.title"></el-input>
         </el-form-item>
-        <el-form-item label="公告简介" prop="description">
+        <el-form-item label="公告简介" prop="comment">
           <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入内容" resize="none" v-model="noticeForm.description">
+            placeholder="请输入内容" resize="none" v-model="noticeForm.comment">
           </el-input>
         </el-form-item>
         <el-form-item label="公告封面" prop="url">
           <el-upload class="avatar-uploader" :action="bindURL('/uploadfile')"
             :show-file-list="false" :on-success="handleAvatarSuccess" name="files">
-            <img v-if="noticeForm.avatarImgUrl" :src="bindURL(noticeForm.avatarImgUrl)"
-              class="avatar">
+            <img v-if="noticeForm.url" :src="bindURL(noticeForm.url)" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -89,7 +88,7 @@
 
 <script>
 import { aMixin } from '@mixins'
-import { _getNoticeList, _deleteNotice } from '@api'
+import { _getNoticeList, _deleteNotice, _addNotice, _editNotice } from '@api'
 import { convertDeepCopy, bindURL } from '@utils'
 const ADD = 0
 const EDIT = 1
@@ -100,7 +99,11 @@ export default {
       noticeList: [],
       noticeDialogVisible: false,
       noticeForm: {},
-      noticeRules: {}
+      noticeRules: {
+        title: [{ required: true, message: '输入公告标题', trigger: 'blur' }],
+        comment: [{ required: true, message: '输入公告内容', trigger: 'blur' }],
+        url: [{ required: true, message: '选择公告封面', trigger: 'blur' }]
+      }
     }
   },
   methods: {
@@ -116,7 +119,7 @@ export default {
     showNoticeDialog(flag, data) {
       this.noticeDialogVisible = true
       if (flag === ADD) {
-        console.log(0)
+        // _
       } else if (flag === EDIT) {
         this.noticeForm = convertDeepCopy(data)
       } else {
@@ -126,11 +129,34 @@ export default {
     },
     // 文件上传后回调
     handleAvatarSuccess(res) {
-      this.noticeForm.url = res
+      this.$set(this.noticeForm, 'url', res)
     },
     // 提交公告
     submitNotice(flag) {
-      console.log(flag)
+      this.$refs.noticeForm.validate(async (valid) => {
+        if (!valid) return
+        this.noticeForm.updateTime = Date.now()
+        if (flag === ADD) {
+          this.noticeForm.id = Date.now() % 999999999
+          const { success } = await _addNotice(this.noticeForm)
+          if (success) {
+            this.$message.success('发布成功')
+          } else {
+            this.$message.error('发布失败')
+          }
+        } else if (flag === EDIT) {
+          const { success } = await _editNotice(this.noticeForm)
+          if (success) {
+            this.$message.success('修改成功')
+          } else {
+            this.$message.error('修改失败')
+          }
+        } else {
+          console.log('error')
+        }
+        this.fetchNotice()
+        this.noticeDialogVisible = false
+      })
     }
   },
   mixins: [aMixin],
@@ -142,26 +168,4 @@ export default {
 
 <style lang="less" scoped>
 @import '~@/assets/css/common.less';
-
-.notice-dialog {
-  /deep/.el-dialog__body {
-    padding: 10px 20px;
-  }
-  .notice-form {
-    box-sizing: border-box;
-    padding: 0 16%;
-    /deep/.el-form-item__content {
-      text-align: left;
-    }
-    /deep/.el-upload {
-      border: 2px dashed rgba(64, 158, 255, 1);
-      &:hover {
-        border-color: rgba(64, 158, 255, 0.5);
-      }
-    }
-  }
-  /deep/.el-dialog__footer {
-    text-align: center;
-  }
-}
 </style>

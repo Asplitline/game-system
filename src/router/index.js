@@ -21,7 +21,6 @@ const aPost = () => import(/*  webpackChunkName: "admin_post" */ '@/components/a
 const aAddPost = () => import(/*  webpackChunkName: "admin_addPost" */ '@/components/admin/post/addPost')
 const aUser = () => import(/*  webpackChunkName: "admin_user" */ '@/components/admin/user/User')
 const aNotice = () => import(/*  webpackChunkName: "admin_notice" */ '@/components/admin/notice/Notice')
-
 // -
 const Login = () => import(/*  webpackChunkName: "login_home_admin" */ '@/components/Login')
 // -
@@ -81,7 +80,6 @@ const router = new VueRouter({
   mode: 'history',
   routes
 })
-
 
 router.beforeEach((to, from, next) => {
   switch (to.path) {

@@ -69,8 +69,23 @@
     width: 178px;
     height: 178px;
     display: block;
-    border: 2px dashed transparent;
-    &:hover {
-        border-color: #0005;
-    }
   }
+
+[class$='-dialog']{
+    [class$='-form'] {
+      box-sizing: border-box;
+      padding: 0 16%;
+      /deep/.el-form-item__content {
+        text-align: left;
+      }
+      /deep/.el-upload {
+        border: 2px dashed rgba(64, 158, 255, 0.5);
+        border-radius: 2px;
+        &:hover {
+          border-color: rgba(64, 158, 255, 1);
+        }
+      }
+    }
+}
+
+

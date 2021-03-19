@@ -32,10 +32,9 @@ export function _post (url) {
     }
 }
 /**
- * 
- * @param {*} url 
- * @param {*} model  1(restful风格) 2(传统风格)
- * @returns 
+ * @param {*} url
+ * @param {*} model 1(restful风格) 2(传统风格)
+ * @returns
  */
 export function _delete (url, model = 1) {
     return function (params) {

@@ -110,7 +110,7 @@
     </el-dialog>
   </div>
 </template>
- 
+
 <script>
 import {
   _getUserList,
@@ -236,20 +236,5 @@ export default {
   //       cursor: pointer;
   //     }
   //   }
-}
-.edit-dialog {
-  /deep/.el-dialog__body {
-    padding: 10px 20px;
-  }
-  .edit-form {
-    box-sizing: border-box;
-    padding: 0 16%;
-    /deep/.el-form-item__content {
-      text-align: left;
-    }
-  }
-  /deep/.el-dialog__footer {
-    text-align: center;
-  }
 }
 </style>

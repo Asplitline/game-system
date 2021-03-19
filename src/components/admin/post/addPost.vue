@@ -43,7 +43,7 @@
 <script>
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import { markdowntoHtml, htmlToText, bindURL } from '@utils'
+import { markdowntoHtml, bindURL } from '@utils'
 import { _uploadFile, _addPost, _editPost } from '@api'
 import { mapState } from 'vuex'
 

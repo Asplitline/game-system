@@ -31,7 +31,9 @@ import {
     Popconfirm,
     Dialog,
     Tag,
-    Upload
+    Upload,
+    Select,
+    Option
 } from 'element-ui'
 
 Vue.use(Button)
@@ -64,7 +66,8 @@ Vue.use(Popconfirm)
 Vue.use(Dialog)
 Vue.use(Tag)
 Vue.use(Upload)
-
+Vue.use(Select)
+Vue.use(Option)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message

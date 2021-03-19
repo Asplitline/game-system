@@ -6,7 +6,7 @@ export const aMixin = {
                 size: 10,
                 keyword: null
             },
-            total: 0,
+            total: 0
         }
     },
     methods: {
@@ -26,17 +26,17 @@ export const aMixin = {
             callback()
         },
         // 通过id删除
-        deleteById (del_callback, fetch_callback, id, info) {
+        deleteById (delCallback, fetchCallback, id, info) {
             this.$confirm('此操作将永久删除该' + info + ', 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'error',
                 center: true
             }).then(async () => {
-                const { success, message } = await del_callback(id)
+                const { success, message } = await delCallback(id)
                 if (success) {
                     this.$message.success('删除成功')
-                    fetch_callback()
+                    fetchCallback()
                 } else {
                     this.$message.error(message)
                 }
@@ -46,8 +46,17 @@ export const aMixin = {
         },
         // 清除对话框表单
         clearDialog (formName) {
-            console.log(formName)
+            // console.log(formName)
             this.$refs[formName].resetFields()
+        },
+        // 请求判断
+        showMsgBySuccess (success, info, callback) {
+            if (success) {
+                this.$message.success(`${info}成功!`)
+                callback()
+            } else {
+                this.$message.error(`${info}失败!`)
+            }
         }
     }
 }

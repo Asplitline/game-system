@@ -19,12 +19,15 @@
       </el-row>
       <el-table :data="commentList" stripe style="width: 100%">
         <el-table-column prop="postId" label="文章标题" min-width="180">
+          <template v-slot="{row}">
+            {{getPostTitleById(row.postId)}}
+          </template>
         </el-table-column>
         <el-table-column prop="content" label="评论内容" min-width="180">
         </el-table-column>
         <el-table-column prop="userId" label="评论用户" min-width="180">
           <template v-slot="{row}">
-            {{findUserNameById(row.userId) }}
+            {{getUserNameById(row.userId) }}
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" min-width="180">
@@ -57,15 +60,15 @@ export default {
   data() {
     return {
       query: {
-        pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        pageNum: 1
       },
-      total: 10,
-      commentList: [{}]
+      total: 0,
+      commentList: []
     }
   },
   methods: {
-    ...mapActions(['fetchAllUser']),
+    ...mapActions(['fetchAllUser', 'fetchAllPost']),
     _deleteComment,
     // 获取评论
     async fetchComment() {
@@ -83,11 +86,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['findUserNameById'])
+    ...mapGetters(['getUserNameById', 'getPostTitleById'])
   },
   created() {
     this.fetchComment()
     this.fetchAllUser()
+    this.fetchAllPost({ size: 999 })
   },
   mixins: [aMixin]
 }
