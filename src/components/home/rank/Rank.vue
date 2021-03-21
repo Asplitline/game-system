@@ -1,5 +1,5 @@
 <template>
-  <div class="rank"></div>
+  <div class="rank">rank</div>
 </template>
 
 <script>

@@ -33,7 +33,9 @@ import {
     Tag,
     Upload,
     Select,
-    Option
+    Option,
+    Carousel,
+    CarouselItem
 } from 'element-ui'
 
 Vue.use(Button)
@@ -68,6 +70,8 @@ Vue.use(Tag)
 Vue.use(Upload)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message

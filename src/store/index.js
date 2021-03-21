@@ -43,6 +43,9 @@ export default new Vuex.Store({
     setACurrentIndex (state) {
       state.aCurrentIndex = sessionStorage.getItem('aCurrentIndex')
     },
+    setHCurrentIndex (state) {
+      state.hCurrentIndex = sessionStorage.getItem('hCurrentIndex')
+    },
     setCurrentUser (state, data) {
       sessionStorage.setItem('currentUser', JSON.stringify(data))
       state.currentUser = data

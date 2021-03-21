@@ -101,8 +101,12 @@ router.beforeEach((to, from, next) => {
       window.sessionStorage.setItem('hCurrentIndex', to.path)
       break
   }
-  if (sessionStorage.getItem('currentUser') === null && to.path !== '/login') {
-    next('/login')
+  if (sessionStorage.getItem('currentUser') === null) {
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
   } else {
     next()
   }

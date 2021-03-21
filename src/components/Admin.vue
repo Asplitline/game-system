@@ -1,6 +1,5 @@
 <template>
   <div class="admin">
-    <!-- 侧边栏 -->
     <el-container class="main">
       <!-- 头部 -->
       <el-header class="header">
@@ -8,7 +7,7 @@
           <el-menu-item class="logo"> <img src="../assets/logo.png" alt="">
           </el-menu-item>
           <el-menu-item index="1" class="title">
-            <p>游戏推荐系统</p>
+            <p>游戏推荐系统 - 后台</p>
           </el-menu-item>
           <el-submenu index="2" class="user-info">
             <template slot="title">
@@ -78,7 +77,7 @@ export default {
     ...mapMutations(['setACurrentIndex']),
     bindURL,
     goToIndex() {
-      console.log(123)
+      this.$router.push('/index')
     },
     logout() {
       sessionStorage.clear()
@@ -107,13 +106,14 @@ export default {
   .logo {
     padding-right: 0;
     img {
-      height: 50px;
+      height: 40px;
     }
   }
 
   .title > p {
     margin: 0;
-    font-size: 26px;
+    font-size: 22px;
+    letter-spacing: 0.1em;
   }
 
   .el-menu--horizontal > .el-menu-item.is-active {

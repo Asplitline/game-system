@@ -153,7 +153,11 @@ export default {
         if (success) {
           this.$message.success('登录成功')
           this.setCurrentUser(data)
-          this.$router.push('/admin')
+          if (data.level === 1 || data.level === 2) {
+            this.$router.push('/admin')
+          } else {
+            this.$router.push('/home')
+          }
         } else {
           this.$message.error('账号或密码错误')
         }
