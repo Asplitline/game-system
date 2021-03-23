@@ -6,6 +6,55 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14112847",
+      "name": "错",
+      "font_class": "cuo",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "18729640",
+      "name": "错号",
+      "font_class": "cuohao",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "20284988",
+      "name": "x",
+      "font_class": "x",
+      "unicode": "e7ce",
+      "unicode_decimal": 59342
+    },
+    {
+      "icon_id": "4765962",
+      "name": "app store",
+      "font_class": "appstore",
+      "unicode": "e792",
+      "unicode_decimal": 59282
+    },
+    {
+      "icon_id": "4767059",
+      "name": "menu",
+      "font_class": "menu1",
+      "unicode": "e7f4",
+      "unicode_decimal": 59380
+    },
+    {
+      "icon_id": "4936461",
+      "name": "thunderbolt",
+      "font_class": "thunderbolt",
+      "unicode": "e843",
+      "unicode_decimal": 59459
+    },
+    {
+      "icon_id": "973740",
+      "name": "search",
+      "font_class": "search",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
       "icon_id": "10109104",
       "name": "喇叭",
       "font_class": "laba",

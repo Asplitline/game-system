@@ -86,6 +86,9 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item label="游戏公司" prop="company">
+          <el-input v-model="gameForm.company"></el-input>
+        </el-form-item>
         <el-form-item label="游戏链接" prop="url">
           <el-input v-model="gameForm.url"></el-input>
         </el-form-item>
@@ -115,6 +118,9 @@ export default {
         name: [{ required: true, message: '请输入游戏名', trigger: 'blur' }],
         description: [
           { required: true, message: '请输入游戏简介', trigger: 'blur' }
+        ],
+        company: [
+          { required: true, message: '请输入游戏公司', trigger: 'blur' }
         ],
         lx: [{ required: true, message: '请选择游戏类型', trigger: 'blur' }],
         photo: [{ required: true, message: '请选择游戏封面', trigger: 'blur' }],

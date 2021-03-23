@@ -13,10 +13,10 @@
           <el-menu-item index="/info">个人中心</el-menu-item>
           <el-submenu index="2" class="user-info">
             <template slot="title">
-              <el-avatar size="large" src="">
+              <el-avatar size="large" :src="bindURL(currentUser.avatarImgUrl)">
               </el-avatar>
             </template>
-            <el-menu-item index="2-1"><i class="iconfont icon-user1">个人信息</i>
+            <el-menu-item index="/info"><i class="iconfont icon-user1">个人信息</i>
             </el-menu-item>
             <el-menu-item index="/admin"><i class="iconfont icon-home">前往后台</i>
             </el-menu-item>
@@ -28,7 +28,6 @@
       <el-main class="w">
         <router-view></router-view>
       </el-main>
-      <el-footer>Footer</el-footer>
     </el-container>
 
   </div>
@@ -36,15 +35,17 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import { bindURL } from '@utils'
 export default {
   data() {
     return {}
   },
   methods: {
-    ...mapMutations(['setHCurrentIndex'])
+    ...mapMutations(['setHCurrentIndex']),
+    bindURL
   },
   computed: {
-    ...mapState({ currentIndex: 'hCurrentIndex' })
+    ...mapState({ currentIndex: 'hCurrentIndex', currentUser: 'currentUser' })
   },
   created() {
     this.setHCurrentIndex()
@@ -83,6 +84,9 @@ export default {
   }
   .user-info {
     float: right;
+  }
+  /deep/.el-menu--horizontal > .el-submenu.is-active .el-submenu__title {
+    border-bottom: none;
   }
   // header <<<
   // main >>>

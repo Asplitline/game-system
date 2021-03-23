@@ -3,6 +3,9 @@
 </template>
 
 <script>
+// 修改信息
+// 收藏游戏
+// 发帖记录
 export default {}
 </script>
 

@@ -24,6 +24,7 @@ module.exports = {
             .set('@api', load('src/api'))
             .set('@utils', load('src/utils'))
             .set('@mixins', load('src/mixins'))
+            .set('@css', load('src/assets/css'))
     }
 
 }

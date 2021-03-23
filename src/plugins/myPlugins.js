@@ -1,5 +1,6 @@
 const MyPlugins = {}
-
+const DEFAULT = 0
+const MINI = 1
 function pad0 (data, len = 2) {
     return ('00000000000' + data).substr(-len)
 }
@@ -10,7 +11,7 @@ MyPlugins.install = function (Vue, options) {
             el.focus()
         }
     })
-    Vue.filter('formatDate', function (date) {
+    Vue.filter('formatDate', function (date, MODEL = DEFAULT) {
         if (!date) return 'unknown error'
         date = new Date(date)
         const year = date.getFullYear()
@@ -19,7 +20,11 @@ MyPlugins.install = function (Vue, options) {
         const hour = pad0(date.getHours())
         const minute = pad0(date.getMinutes())
         const second = pad0(date.getSeconds())
-        return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+        if (MODEL === DEFAULT)
+            return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+        else if (MODEL === MINI) {
+            return `${year}-${month}-${day}`
+        }
     })
 }
 
