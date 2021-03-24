@@ -47,8 +47,10 @@ export default {
 @import '~@css/mixins.less';
 .r-main {
   .el-aside {
-    .box-shadow-in(#e4e4e4);
     padding: 20px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    .box-shadow-in(#e4e4e4);
   }
   .el-main {
   }

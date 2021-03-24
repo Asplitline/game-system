@@ -19,39 +19,6 @@
     </el-carousel>
     <!-- 功能模块 -->
     <ul class="f-main">
-      <!-- <li class="f-item">
-        <a href="/game">
-          <div class="f-img">
-            <img src="../../../assets/f-img.png" alt="">
-          </div>
-          <div class="f-tips">
-            <h3 class="f-title">游戏中心</h3>
-            <p class="f-desc">海量游戏任你游玩</p>
-          </div>
-        </a>
-      </li>
-      <li class="f-item">
-        <a href="/rank">
-          <div class="f-img">
-            <img src="../../../assets/f-img.png" alt="">
-          </div>
-          <div class="f-tips">
-            <h3 class="f-title">排行榜</h3>
-            <p class="f-desc">最热游戏尽在眼前</p>
-          </div>
-        </a>
-      </li>
-      <li class="f-item">
-        <a href="/share">
-          <div class="f-img">
-            <img src="../../../assets/f-img.png" alt="">
-          </div>
-          <div class="f-tips">
-            <h3 class="f-title">游戏论坛</h3>
-            <p class="f-desc">尽情交流游戏心得</p>
-          </div>
-        </a>
-      </li> -->
       <li class="f-item" v-for="(item,index ) in content" :key="index">
         <a :href="item.url">
           <div class="f-img">
@@ -68,6 +35,7 @@
 </template>
 
 <script>
+// 公告对话框形式
 import { _getNoticeList } from '@api'
 import { bindURL } from '@utils'
 export default {
@@ -122,6 +90,12 @@ export default {
 <style lang="less" scoped>
 @import '~@css/mixins.less';
 @import '~@css/variables.less';
+
+.el-carousel  {
+  background-color: #fff;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+}
 .container {
   position: relative;
   height: 100%;
@@ -176,10 +150,13 @@ export default {
 .f-main {
   display: flex;
   justify-content: space-around;
+  background-color: #fff;
+  padding: 40px 20px;
+  border: 1px solid #ccc;
   .f-item {
     position: relative;
     width: 340px;
-    border: 1px solid rgba(204, 204, 204, 0.2);
+    border: 1px solid rgba(204, 204, 204, 0.6);
     border-radius: 2px;
     transition: all 0.2s linear;
     &:hover {

@@ -9,7 +9,9 @@ const Index = () => import(/*  webpackChunkName: "home_index" */ '@/components/h
 const info = () => import(/*  webpackChunkName: "home_info" */ '@/components/home/info/Info')
 const Rank = () => import(/*  webpackChunkName: "home_rank" */ '@/components/home/rank/Rank')
 const Share = () => import(/*  webpackChunkName: "home_share" */ '@/components/home/share/Share')
-
+// --
+const GameDetail = () => import(/*  webpackChunkName: "home_game" */ '@/components/home/game/GameDetail')
+const AddPost = () => import(/*  webpackChunkName: "home_share" */ '@/components/home/share/AddPost')
 // -
 const Admin = () => import(/*  webpackChunkName: "login_home_admin" */ '@/components/Admin')
 // --
@@ -41,10 +43,12 @@ const routes = [
     redirect: '/index',
     children: [
       { path: '/game', component: Game },
+      { path: '/game/:id', component: GameDetail, props: true },
       { path: '/index', component: Index },
       { path: '/info', component: info },
       { path: '/rank', component: Rank },
-      { path: '/share', component: Share }
+      { path: '/share', component: Share },
+      { path: '/addPost', component: AddPost }
     ]
   },
   {

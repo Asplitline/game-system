@@ -25,8 +25,10 @@
           </el-submenu>
         </el-menu>
       </el-header>
-      <el-main class="w">
-        <router-view></router-view>
+      <el-main>
+        <div class="w">
+          <router-view></router-view>
+        </div>
       </el-main>
     </el-container>
 
@@ -92,6 +94,7 @@ export default {
   // main >>>
   .el-main {
     flex: 1;
+    background-color: #f4f5f5;
   }
   // main <<<
   // footer >>>

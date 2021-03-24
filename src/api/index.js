@@ -5,15 +5,15 @@ import { _get, _post, _delete, _put } from './helper'
 const MODEL_TRADITION = 0
 
 // login
-const _postLogin = _post('/account/api/login')
+const _login = _post('/account/api/login')
 // register
-const _postRegister = _post('/account/insert')
+const _register = _post('/account/insert')
 // user
 const _getUser = _get('/account/list')
 const _getUserList = _post('/account/pageAccount')
 const _deleteUser = _delete('/account/delete')
-const _getChangePassword = _get('/account/changePassword')
-const _putEditUser = _put('/account/updateIgnoreNull')
+const _changePassword = _get('/account/changePassword')
+const _editUser = _put('/account/updateIgnoreNull')
 // game
 const _getGame = _get('/game/list')
 const _getGameList = _get('/game/page')
@@ -44,17 +44,21 @@ const _deleteCategory = _delete('/gameType/delete', MODEL_TRADITION)
 const _getLogList = _get('/logs/page')
 // upload
 const _uploadFile = _post('/uploadfile')
+// star
+const _getStar = _get('/likeGame/list')
+const _addStar = _post('/likeGame/insert')
+const _deleteStart = _delete('/likeGame/delete')
 export {
     // login
-    _postLogin,
+    _login,
     // register
-    _postRegister,
+    _register,
     // user
     _getUser,
     _getUserList,
     _deleteUser,
-    _getChangePassword,
-    _putEditUser,
+    _changePassword,
+    _editUser,
     // game
     _getGame,
     _getGameList,
@@ -84,5 +88,9 @@ export {
     // log
     _getLogList,
     // upload
-    _uploadFile
+    _uploadFile,
+    // star
+    _getStar,
+    _addStar,
+    _deleteStart
 }

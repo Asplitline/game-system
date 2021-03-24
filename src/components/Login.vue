@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { _postLogin, _postRegister } from '@api'
+import { _login, _register } from '@api'
 import { convertParams } from '@utils'
 import { mapMutations } from 'vuex'
 export default {
@@ -147,9 +147,7 @@ export default {
     // 登录
     async login() {
       if (this.validate(this.loginForm, this.loginRules)) {
-        const { success, data } = await _postLogin(
-          convertParams(this.loginForm)
-        )
+        const { success, data } = await _login(convertParams(this.loginForm))
         if (success) {
           this.$message.success('登录成功')
           this.setCurrentUser(data)
@@ -187,7 +185,7 @@ export default {
           },
           this.registerForm
         )
-        const { success, message } = await _postRegister(form)
+        const { success, message } = await _register(form)
         if (success) {
           this.$message.success('注册成功')
           this.reset(this.registerForm, this.registerRules)

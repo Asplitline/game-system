@@ -43,7 +43,7 @@
 <script>
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import { markdowntoHtml, bindURL } from '@utils'
+import { markdownToHtml, bindURL } from '@utils'
 import { _uploadFile, _addPost, _editPost } from '@api'
 import { mapState } from 'vuex'
 
@@ -72,7 +72,7 @@ export default {
       if (!this.validatePost()) {
         return
       }
-      this.postData.htmlContent = markdowntoHtml(this.postData.textContent)
+      this.postData.htmlContent = markdownToHtml(this.postData.textContent)
       this.postData.authorId = this.currentUser.id
       if (flag === EDIT) {
         this.postData.updateTime = Date.now()

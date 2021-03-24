@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19989627",
+      "name": "backward",
+      "font_class": "backward",
+      "unicode": "ea4f",
+      "unicode_decimal": 59983
+    },
+    {
+      "icon_id": "400683",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "1286666",
+      "name": "eglass-back-b",
+      "font_class": "back-b",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "20577141",
+      "name": "eglass-back-b",
+      "font_class": "back-b-copy",
+      "unicode": "ea03",
+      "unicode_decimal": 59907
+    },
+    {
       "icon_id": "14112847",
       "name": "错",
       "font_class": "cuo",

@@ -1,10 +1,10 @@
 <template>
-  <div class="g-main">
+  <div class="game-item">
     <template v-if="allNum">
       <!-- list -->
       <ul v-if="type === 'list'" class="list">
         <li class="g-list" v-for="item in list" :key="item.id">
-          <a href="javascript:;">
+          <a href="javascript:;" @click="goGameDetail(item)">
             <div class="g-cover">
               <img :src="bindURL(item.photo)" alt="">
             </div>
@@ -21,7 +21,7 @@
       <ul v-else-if="type==='card'">
         <!-- card -->
         <li class="g-card" v-for="item in filterList" :key="item.id">
-          <a href="javascript:;">
+          <a href="javascript:;" @click="goGameDetail(item)">
             <div class=" g-cover">
               <img :src="bindURL(item.photo)" alt="">
             </div>
@@ -40,13 +40,13 @@
     <template v-else>
       暂无游戏
     </template>
-</div>
+  </div>
 
 </template>
 
 <script>
 import { bindURL } from '@utils'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 // list
 // card
 export default {
@@ -65,8 +65,13 @@ export default {
   methods: {
     bindURL,
     ...mapActions(['fetchAllCategory']),
+    ...mapMutations(['setCurrentGame']),
     handleClick(lxId) {
       this.$emit('click', Number(lxId))
+    },
+    goGameDetail(data) {
+      this.setCurrentGame(data)
+      this.$router.push('/game/' + data.id)
     }
   },
   computed: {
@@ -98,7 +103,8 @@ export default {
 <style lang="less" scoped>
 @import '~@css/mixins.less';
 @import '~@css/variables.less';
-.g-main {
+.game-item {
+  padding: 20px;
   .list {
     display: flex;
     flex-wrap: wrap;

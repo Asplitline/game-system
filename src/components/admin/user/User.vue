@@ -112,12 +112,7 @@
 </template>
 
 <script>
-import {
-  _getUserList,
-  _deleteUser,
-  _getChangePassword,
-  _putEditUser
-} from '@api'
+import { _getUserList, _deleteUser, _changePassword, _editUser } from '@api'
 import { convertDeepCopy, bindURL, validateEmail } from '@utils'
 import { aMixin } from '@mixins'
 const DEFAULT_PASSWORD = 123456
@@ -168,7 +163,7 @@ export default {
     editUser(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (!valid) return
-        const { success } = await _putEditUser(this.editUserForm)
+        const { success } = await _editUser(this.editUserForm)
         if (success) {
           this.$message.success('修改成功')
           this.fetchUser()
@@ -192,7 +187,7 @@ export default {
         center: true
       })
         .then(async () => {
-          const { success } = await _getChangePassword({
+          const { success } = await _changePassword({
             id,
             password: DEFAULT_PASSWORD
           })

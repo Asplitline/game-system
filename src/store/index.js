@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { _getUser, _getPostList, _getCategory } from '@api'
+import { _getUser, _getPostList, _getCategory, _getStar } from '@api'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    test: { id: 1, name: '123' },
     aCurrentIndex: sessionStorage.getItem('aCurrentIndex'),
     hCurrentIndex: sessionStorage.getItem('hCurrentIndex'),
     currentUser: sessionStorage.getItem('currentUser') && JSON.parse(sessionStorage.getItem('currentUser')),
     currentPost: sessionStorage.getItem('currentPost') && JSON.parse(sessionStorage.getItem('currentPost')),
+    currentGame: sessionStorage.getItem('currentGame') && JSON.parse(sessionStorage.getItem('currentGame')),
     allUser: sessionStorage.getItem('allUser') && JSON.parse(sessionStorage.getItem('allUser')),
     allPost: sessionStorage.getItem('allPost') && JSON.parse(sessionStorage.getItem('allPost')),
-    allCategory: sessionStorage.getItem('allCategory') && JSON.parse(sessionStorage.getItem('allCategory'))
+    allCategory: sessionStorage.getItem('allCategory') && JSON.parse(sessionStorage.getItem('allCategory')),
+    allStar: sessionStorage.getItem('allStar') && JSON.parse(sessionStorage.getItem('allStar'))
   },
   getters: {
     getUserNameById: (state) => (id) => {
@@ -37,6 +40,12 @@ export default new Vuex.Store({
       return state.allCategory.map((item) => {
         return { id: item.id, name: item.name }
       })
+    },
+    getStarById: (state) => (id) => {
+      console.log(state.allStar)
+      return state.allStar && state.allStar.filter(item => {
+        return item.userid === id
+      })
     }
   },
   mutations: {
@@ -47,6 +56,7 @@ export default new Vuex.Store({
       state.hCurrentIndex = sessionStorage.getItem('hCurrentIndex')
     },
     setCurrentUser (state, data) {
+      console.log(state, data)
       sessionStorage.setItem('currentUser', JSON.stringify(data))
       state.currentUser = data
     },
@@ -58,6 +68,10 @@ export default new Vuex.Store({
       sessionStorage.setItem('currentPost', JSON.stringify(data))
       state.currentPost = data
     },
+    setCurrentGame (state, data) {
+      sessionStorage.setItem('currentGame', JSON.stringify(data))
+      state.currentGame = data
+    },
     setAllPost (state, data) {
       sessionStorage.setItem('allPost', JSON.stringify(data))
       state.allPost = data
@@ -65,6 +79,13 @@ export default new Vuex.Store({
     setAllCategory (state, data) {
       sessionStorage.setItem('allCategory', JSON.stringify(data))
       state.allCategory = data
+    },
+    setAllStar (state, data) {
+      sessionStorage.setItem('allStar', JSON.stringify(data))
+      state.allStar = data
+    },
+    setTest (state, obj) {
+      state.test = obj
     }
   },
   actions: {
@@ -79,6 +100,10 @@ export default new Vuex.Store({
     async fetchAllCategory ({ commit }) {
       const res = await _getCategory()
       commit('setAllCategory', res)
+    },
+    async fetchAllStar ({ commit }) {
+      const res = await _getStar()
+      commit('setAllStar', res)
     }
   },
   modules: {

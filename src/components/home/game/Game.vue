@@ -25,7 +25,6 @@
             @click="setActiveItem($event)" />
         </el-main>
       </el-container>
-
     </el-container>
   </div>
 </template>
@@ -124,7 +123,7 @@ export default {
   .g-search-wrap {
     position: relative;
     margin: 0;
-    overflow: hidden;
+    // overflow: hidden;
     input {
       width: 500px;
       height: 40px;
@@ -133,7 +132,8 @@ export default {
       padding: 0 20px;
       border-radius: 20px;
       &:focus {
-        border-color: @main-green;
+        // border-color: @main-green;
+        box-shadow: 0 0 0 3px rgba(66, 185, 131, 0.5);
       }
     }
     span {
@@ -172,6 +172,7 @@ export default {
   border: 1px solid #ccc;
   box-shadow: inset 0 0 0 1px #e4e4e4;
   padding: 20px 0;
+  background-color: #fff;
   .nav-item {
     width: 100px;
     height: 30px;
@@ -196,6 +197,16 @@ export default {
   }
 }
 .g-main {
+  background-color: #fff;
   padding-top: 10px;
+  padding: 0;
+  margin: 20px;
+  border: 1px solid #ccc;
+}
+
+.g-header {
+  background-color: #fff;
+  padding: 0;
+  margin: 0 20px;
 }
 </style>

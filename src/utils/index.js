@@ -25,12 +25,26 @@ export function validateEmail (rule, value, callback) {
         if (mailReg.test(value)) {
             callback()
         } else {
-            callback(new Error('请输入正确的邮箱格式'))
+            callback(new Error('请输入正确的邮箱'))
         }
     }, 100)
 }
 
-export function markdowntoHtml (val) {
+export function validatePhone (rule, value, callback) {
+    const phoneReg = /^1[34578]\d{9}$/
+    if (!value) {
+        return callback(new Error('请输入手机号'))
+    }
+    setTimeout(() => {
+        if (phoneReg.test(value)) {
+            callback()
+        } else {
+            callback(new Error('请输入正确的手机号'))
+        }
+    }, 100)
+}
+
+export function markdownToHtml (val) {
     return marked(val)
 }
 
