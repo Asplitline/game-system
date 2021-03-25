@@ -74,4 +74,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.el-form-item {
+  text-align: left;
+}
 </style>

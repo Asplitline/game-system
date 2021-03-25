@@ -7,10 +7,12 @@
             :class="{'nav-item-active':activeIndex===item.id}" v-for="item in navItem"
             :key="item.id">{{item.tag}}</a>
         </div>
-        <button class="s-add" @click="goAddPost()"><i class="icon-news_hot iconfont"></i>写文章</button>
+        <button class="s-add" @click="goAddPost()"><i
+            class="icon-news_hot iconfont"></i>写文章</button>
       </el-header>
       <el-main>
-        <a class="s-item" v-for="item in filterPost" :key="item.id" href="javascript:;">
+        <a class="s-item" v-for="item in filterPost" :key="item.id" href="javascript:;"
+          @click="goPostDetail(item)">
           <div class="s-info">
             <span class="s-author">{{item.author}}</span>
             <span class="s-date">{{item.createTime |formatDate}}</span>
@@ -18,6 +20,9 @@
           <div class="s-title">{{item.title}}</div>
           <div class="s-desc">{{item.textContent}}</div>
         </a>
+        <el-pagination layout="prev, pager, next" :total="total"
+          @current-change="handleCurrentChange(fecthPost,$event)">
+        </el-pagination>
       </el-main>
     </el-container>
   </div>
@@ -26,7 +31,7 @@
 <script>
 import { _getPostList } from '@api'
 import { aMixin } from '@mixins'
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -41,6 +46,7 @@ export default {
   mixins: [aMixin],
   methods: {
     ...mapActions(['fetchAllUser']),
+    ...mapMutations(['setCurrentPost']),
     // 获取文章列表
     async fecthPost() {
       const { list, total } = await _getPostList(this.query)
@@ -50,6 +56,11 @@ export default {
     // 跳转到编写文章
     goAddPost() {
       this.$router.push('/addPost')
+    },
+    // 跳转到文章详情
+    goPostDetail(row) {
+      this.setCurrentPost(row)
+      this.$router.push('/share/' + row.id)
     }
   },
   computed: {
@@ -142,11 +153,12 @@ export default {
 }
 .el-main {
   text-align: left;
+  padding: 0;
   .s-item {
     display: block;
-    padding: 4px 0;
     border-bottom: 1px solid #97979733;
     transition: all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+    padding: 8px 20px;
     div {
       margin-bottom: 8px;
     }
@@ -173,6 +185,10 @@ export default {
     &:hover {
       background-color: #b2bac226;
     }
+  }
+  .el-pagination {
+    margin: 10px 0;
+    text-align: center;
   }
 }
 </style>

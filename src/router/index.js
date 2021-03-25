@@ -12,6 +12,7 @@ const Share = () => import(/*  webpackChunkName: "home_share" */ '@/components/h
 // --
 const GameDetail = () => import(/*  webpackChunkName: "home_game" */ '@/components/home/game/GameDetail')
 const AddPost = () => import(/*  webpackChunkName: "home_share" */ '@/components/home/share/AddPost')
+const PostDetail = () => import(/*  webpackChunkName: "home_share" */ '@/components/home/share/PostDetail')
 // -
 const Admin = () => import(/*  webpackChunkName: "login_home_admin" */ '@/components/Admin')
 // --
@@ -48,6 +49,7 @@ const routes = [
       { path: '/info', component: info },
       { path: '/rank', component: Rank },
       { path: '/share', component: Share },
+      { path: '/share/:id', component: PostDetail, props: true },
       { path: '/addPost', component: AddPost }
     ]
   },

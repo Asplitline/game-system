@@ -3,9 +3,10 @@ import { _get, _post, _delete, _put } from './helper'
 // default - MODEL_RESTFUL
 // const MODEL_RESTFUL = 1
 const MODEL_TRADITION = 0
+const MODEL_NO = 2
 
 // login
-const _login = _post('/account/api/login')
+const _login = _post('/account/api/login', MODEL_NO)
 // register
 const _register = _post('/account/insert')
 // user
@@ -28,11 +29,14 @@ const _editNotice = _put('/notice/updateIgnoreNull')
 const _deleteNotice = _delete('/notice/delete', MODEL_TRADITION)
 // post
 const _getPostList = _get('/post/api/pagePosts')
+const _getPostByAuthorId = _get('/post/api/pagePostByAuthorId')
 const _addPost = _post('/post/api/addPost')
 const _editPost = _post('/post/api/updatePost')
 const _deletePost = _delete('/post/api/deletePost')
 // comment
+const _addComment = _post('/comment/api/addComment')
 const _getComment = _get('/comment/api/pageComment')
+const _getCommentByPostId = _post('/reply/api/getCommentsByPostId', MODEL_TRADITION)
 const _deleteComment = _delete('/comment/api/deleteComment')
 // category
 const _getCategory = _get('/gameType/list')
@@ -42,12 +46,13 @@ const _editCategory = _put('/gameType/updateIgnoreNull')
 const _deleteCategory = _delete('/gameType/delete', MODEL_TRADITION)
 // log
 const _getLogList = _get('/logs/page')
+const _deleteLog = _delete('/logs/delete', MODEL_TRADITION)
 // upload
 const _uploadFile = _post('/uploadfile')
 // star
 const _getStar = _get('/likeGame/list')
 const _addStar = _post('/likeGame/insert')
-const _deleteStart = _delete('/likeGame/delete')
+const _deleteStar = _delete('/likeGame/delete', MODEL_TRADITION)
 export {
     // login
     _login,
@@ -79,18 +84,22 @@ export {
     _deleteCategory,
     // post
     _getPostList,
+    _getPostByAuthorId,
     _addPost,
     _editPost,
     _deletePost,
     // comment
     _getComment,
+    _getCommentByPostId,
+    _addComment,
     _deleteComment,
     // log
     _getLogList,
+    _deleteLog,
     // upload
     _uploadFile,
     // star
     _getStar,
     _addStar,
-    _deleteStart
+    _deleteStar
 }

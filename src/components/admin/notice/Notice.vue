@@ -168,4 +168,8 @@ export default {
 
 <style lang="less" scoped>
 @import '~@/assets/css/common.less';
+
+/deep/.el-table .cell {
+  white-space: nowrap;
+}
 </style>

@@ -1,3 +1,5 @@
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
 const MyPlugins = {}
 const DEFAULT = 0
 const MINI = 1
@@ -9,6 +11,14 @@ MyPlugins.install = function (Vue, options) {
     Vue.directive('focus', {
         inserted (el) {
             el.focus()
+        }
+    })
+    Vue.directive('hljs', {
+        inserted (el) {
+            let blocks = el.querySelectorAll('pre code')
+            blocks.forEach(b => {
+                hljs.highlightBlock(b)
+            })
         }
     })
     Vue.filter('formatDate', function (date, MODEL = DEFAULT) {

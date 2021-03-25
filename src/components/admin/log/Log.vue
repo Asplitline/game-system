@@ -9,8 +9,10 @@
       <el-divider></el-divider>
       <el-row :gutter="20" class="top-search">
         <el-col :span="6">
-          <el-input placeholder="请输入内容" v-model="query.keyword">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          <el-input placeholder="请输入内容" v-model="query.keyword" class="search-ipt"
+            @keyup.enter.native="fetchLog()" :clearable="true" @clear="fetchLog()"
+            @keyup.esc.native="clearIpt(fetchLog)">
+            <i slot="prefix" class="el-input__icon el-icon-search search-icon"></i>
           </el-input>
         </el-col>
         <el-col :span="6" :offset="12">
@@ -29,30 +31,32 @@
         <el-table-column prop="ip" label="操作地址" min-width="180">
         </el-table-column>
         <el-table-column prop="createTime" label="操作时间" min-width="180">
+          <template v-slot="{row}">
+            {{row.createTime | formatDate}}
+          </template>
         </el-table-column>
         <el-table-column label="操作" min-width="180">
-          <el-button type="danger" size="small">删除</el-button>
+          <template v-slot="{row}">
+            <el-button type="danger" size="small"
+              @click="deleteById(_deleteLog,fetchLog,row.id,'日志')">
+              删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :page-sizes="[1, 2, 5, 10]" layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
+      <el-pagination @size-change="handleSizeChange(fetchLog,$event)"
+        @current-change="handleCurrentChange(fetchLog,$event)" :page-sizes="[1, 2, 5, 10]"
+        layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </el-card>
   </div>
 </template>
 
 <script>
-import { _getLogList } from '@api'
+import { _getLogList, _deleteLog } from '@api'
+import { aMixin } from '@mixins'
 export default {
   data() {
     return {
-      query: {
-        page: 1,
-        size: 10,
-        keyword: null
-      },
-      total: 10,
       logList: [{}],
       logName: [
         {},
@@ -62,20 +66,14 @@ export default {
     }
   },
   methods: {
-    handleSizeChange(size) {
-      this.query.size = size
-      this.fetchUser()
-    },
-    handleCurrentChange(current) {
-      this.query.page = current
-      this.fetchUser()
-    },
+    _deleteLog,
     async fetchLog() {
       const { list, total } = await _getLogList(this.query)
       this.logList = list
       this.total = total
     }
   },
+  mixins: [aMixin],
   created() {
     this.fetchLog()
   }

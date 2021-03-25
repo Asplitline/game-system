@@ -99,6 +99,7 @@ export default {
 @import '~@css/mixins.less';
 
 .edit-info {
+  text-align: left;
   /deep/.el-upload {
     position: relative;
     border: 2px solid #ccc;

@@ -22,7 +22,6 @@
         <button class="g-star" @click="starGame()" :class="{'g-star-active':hasStar}"><i
             class="iconfont icon-icon-test2"></i>{{starText}}</button>
       </div>
-      {{handleStar(filterGame.id)}}
       <pTime :date="filterGame.createTime"></pTime>
       <pBack @back="backToLast()" />
     </el-main>
@@ -32,6 +31,7 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { bindURL } from '@utils'
+import { _addStar, _deleteStar } from '@api'
 import pTime from '@/components/common/Time'
 import pBack from '@/components/common/Back'
 export default {
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      hasStar: false
+      currentStar: {}
     }
   },
   computed: {
@@ -64,6 +64,13 @@ export default {
     },
     currentUserStar() {
       return this.getStarById(this.currentUser.id)
+    },
+    hasStar() {
+      const star = this.currentUserStar.find((item) => {
+        return item.gameid === this.currentGame.id
+      })
+      this.currentStar = star
+      return star !== undefined
     }
   },
   methods: {
@@ -78,15 +85,43 @@ export default {
       location.href = url
     },
     // 收藏游戏
-    starGame() {
-      this.hasStar = !this.hasStar
+    async starGame() {
+      if (this.hasStar === true) {
+        // 取消收藏
+        if (this.currentStar && this.currentStar.id) {
+          console.log(123)
+          const { success } = await _deleteStar(this.currentStar.id)
+          if (success) {
+            this.$message.success('取消收藏')
+            this.fetchAllStar()
+          } else {
+            this.$message.error('取消失败')
+          }
+        } else {
+          console.log('cancel star error')
+        }
+      } else if (this.hasStar === false) {
+        // 收藏
+        const { success } = await _addStar(this.handleStar())
+        if (success) {
+          this.$message.success('收藏成功')
+          this.fetchAllStar()
+        } else {
+          this.$message.error('收藏失败')
+        }
+      } else {
+        console.log('star error')
+      }
     },
     // 处理收藏
-    handleStar(id) {
-      console.log(id)
-      return this.currentUserStar.find((item) => {
-        item.gameid === id
-      })
+    handleStar() {
+      return {
+        id: Date.now() % 999999999,
+        createTime: Date.now(),
+        updateTime: Date.now(),
+        userid: this.currentUser.id,
+        gameid: this.currentGame.id
+      }
     }
   },
   components: {

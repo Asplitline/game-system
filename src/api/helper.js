@@ -20,20 +20,43 @@ export function _get (url) {
     }
 }
 
-export function _post (url) {
+export function _post (url, model = 1) {
     return function (params) {
-        return $http.post(url,
-            params
-        ).then(res => {
-            return res.data
-        }).catch(err => {
-            console.log(err)
-        })
+        // let URL
+        // if (model === 1) {
+        //     URL = `${url}/${params}`
+        //     console.log(URL)
+        // } else if (model === 0) {
+        //     URL = `${url}?postId=${params}`
+        // } else {
+        //     URL = `${url}?${params}`
+        // }
+        if (model === 1) {
+            return $http.post(url, params)
+                .then(res => {
+                    return res.data
+                }).catch(err => {
+                    console.log(err)
+                })
+        } else {
+            let URL
+            if (model === 2) {
+                URL = `${url}?${params}`
+            } else if (model === 0) {
+                URL = `${url}?postId=${params}`
+            }
+            return $http.post(URL)
+                .then(res => {
+                    return res.data
+                }).catch(err => {
+                    console.log(err)
+                })
+        }
     }
 }
 /**
  * @param {*} url
- * @param {*} model 1(restful风格) 2(传统风格)
+ * @param {*} model  0(传统风格) 1(restful风格) 2(不处理)
  * @returns
  */
 export function _delete (url, model = 1) {

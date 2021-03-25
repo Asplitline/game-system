@@ -20,7 +20,7 @@
             </el-menu-item>
             <el-menu-item index="/admin"><i class="iconfont icon-home">前往后台</i>
             </el-menu-item>
-            <el-menu-item> <i class="iconfont icon-logout">退出系统</i>
+            <el-menu-item @click="logout()"> <i class="iconfont icon-logout">退出系统</i>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -44,7 +44,12 @@ export default {
   },
   methods: {
     ...mapMutations(['setHCurrentIndex']),
-    bindURL
+    bindURL,
+    logout() {
+      sessionStorage.clear()
+      this.setHCurrentIndex()
+      this.$router.push('/login')
+    }
   },
   computed: {
     ...mapState({ currentIndex: 'hCurrentIndex', currentUser: 'currentUser' })

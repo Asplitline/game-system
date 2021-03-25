@@ -4,9 +4,9 @@
       <el-form-item prop="title">
         <el-input v-model="postForm.title" placeholder="请输入文章标题"></el-input>
       </el-form-item>
-      <el-form-item prop="value">
-        <mavon-editor style="min-height:700px" v-model="postForm.value" ref="md-editor"
-          @imgAdd="handleEditorImgAdd()" />
+      <el-form-item prop="textContent">
+        <mavon-editor style="min-height:700px" v-model="postForm.textContent"
+          ref="md-editor" @imgAdd="handleEditorImgAdd" />
       </el-form-item>
       <el-form-item>
         <el-button type="success" size="small" class="btn-submit"
@@ -22,43 +22,68 @@
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import pBack from '@/components/common/Back'
-import { markdownToHtml, htmlToText } from '@utils'
+import { markdownToHtml, bindURL } from '@utils'
+import { _uploadFile, _addPost } from '@api'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       postRules: {
         title: { required: true, message: '请填写文章标题', trigger: 'blur' },
-        value: { required: true, message: '请填写文章内容', trigger: 'blur' }
+        textContent: {
+          required: true,
+          message: '请填写文章内容',
+          trigger: 'blur'
+        }
       },
       postForm: {}
     }
   },
   methods: {
-    handleEditorImgAdd() {},
+    // 图片上传
+    async handleEditorImgAdd(pos, file) {
+      const formData = new FormData()
+      formData.append('files', file)
+      const path = await _uploadFile(formData)
+      this.$refs['md-editor'].$img2Url(pos, bindURL(path))
+    },
+    // 返回文章列表
     backToLast() {
       this.$router.push('/share')
     },
+    // 提交文章
     submitPost(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (!valid) return
-        const { title, value } = this.postForm
-        const htmlContent = markdownToHtml(value)
-        const textContent = htmlToText(value)
-        const post = {
-          title,
-          htmlContent,
-          textContent,
-          createTime: Date.now(),
-          updateTime: Date.now(),
-          id: Date.now() % 999999999
+        const { success } = await _addPost(this.handlePostForm())
+        if (success) {
+          this.$message.success('发布成功')
+          this.backToLast()
+        } else {
+          this.$message.error('发布失败')
         }
-        console.log(post)
       })
+    },
+    // 处理文章表单
+    handlePostForm() {
+      const htmlContent = markdownToHtml(this.postForm.textContent)
+      return {
+        authorId: this.currentUser.id,
+        title: this.postForm.title,
+        textContent: this.postForm.textContent,
+        htmlContent,
+        createTime: Date.now(),
+        updateTime: Date.now(),
+        id: Date.now() % 999999999
+      }
     }
   },
   components: {
     mavonEditor,
     pBack
+  },
+  computed: {
+    ...mapState(['currentUser'])
   }
 }
 </script>

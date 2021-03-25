@@ -32,11 +32,11 @@
           </template>
           <!-- 我的文章 -->
           <template v-else-if="activeIndex === 3">
-            <iPost />
+            <iPost :uid="currentUser.id" :data="postList" @go-to="goTo($event,3)" />
           </template>
           <!-- 我的收藏 -->
           <template v-else-if="activeIndex === 4">
-            <iStar />
+            <iStar :data="starList" :list="miniGameList" @go-to="goTo($event,4)" />
           </template>
         </el-card>
       </el-col>
@@ -49,8 +49,8 @@
 // 收藏游戏
 // 发帖记录
 import { bindURL, convertDeepCopy } from '@utils'
-import { mapMutations, mapState } from 'vuex'
-import { _editUser, _changePassword } from '@api'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { _editUser, _changePassword, _getPostByAuthorId } from '@api'
 import iUser from './UserInfo'
 import iPwd from './ChangePwd'
 import iPost from './MyPost'
@@ -64,11 +64,14 @@ export default {
         { index: 2, tag: '更改密码' },
         { index: 3, tag: '帖子记录' },
         { index: 4, tag: '我的收藏' }
-      ]
+      ],
+      postList: [],
+      starList: []
     }
   },
   methods: {
     ...mapMutations(['setCurrentUser']),
+    ...mapActions(['fetchAllGame']),
     bindURL,
     // 修改用户
     async editUser(val) {
@@ -93,6 +96,32 @@ export default {
     },
     setActive(index) {
       this.activeIndex = index
+    },
+    // 获取文章
+    async fetchPost() {
+      const { list } = await _getPostByAuthorId({
+        keyword: this.currentUser.id
+      })
+      this.postList = list
+    },
+    // 获取收藏
+    fetchStar() {
+      this.starList = this.getStarById(this.currentUser.id)
+    },
+    // 跳转
+    goTo(id, flag) {
+      if (flag === 3) {
+        this.$router.push('/share/' + id)
+      } else if (flag === 4) {
+        this.$router.push('/game/' + id)
+      }
+    }
+  },
+  computed: {
+    ...mapState(['currentUser', 'allGame']),
+    ...mapGetters(['getStarById', 'getMimiGameList']),
+    miniGameList() {
+      return this.getMimiGameList()
     }
   },
   components: {
@@ -101,8 +130,26 @@ export default {
     iPost,
     iStar
   },
-  computed: {
-    ...mapState(['currentUser'])
+  watch: {
+    activeIndex(nVal, oVal) {
+      if (nVal === 1) {
+        // _
+      } else if (nVal === 2) {
+        // _
+      } else if (nVal === 3) {
+        this.fetchPost()
+      } else if (nVal === 4) {
+        // _
+        this.fetchStar()
+      } else {
+        console.log('info error')
+      }
+    }
+  },
+  created() {
+    if (this.allGame === null) {
+      this.fetchAllGame()
+    }
   }
 }
 </script>

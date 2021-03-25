@@ -119,7 +119,6 @@ export default {
   created() {
     if (this.id) {
       this.postData = this.currentPost
-      // console.log(this.currentPost)
     }
   }
 }

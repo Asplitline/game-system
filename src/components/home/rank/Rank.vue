@@ -2,19 +2,20 @@
   <div class="rank">
     <el-container class="r-main">
       <el-aside width="160px">
-        <a :href="'/'+item.tag" class="ranks-tag" v-for="(item,index) in ranks"
-          :key="index">{{item.name}}
+        <a href="javascript:;" class="ranks-tag" v-for="(item,index) in ranks"
+          :key="index" :class="{'ranks-tag-active':item.tag === currentIndex}"
+          @click="setActive(item.tag)">{{item.name}}
         </a>
       </el-aside>
       <el-main>
-        <rank-list />
+        <rank-content :data="rankList" />
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import rankList from './RankList'
+import rankContent from './RankContent'
 import { _getGame } from '@api'
 export default {
   data() {
@@ -24,18 +25,21 @@ export default {
         { name: '口碑佳作', tag: 'score' },
         { name: '最高热度', tag: 'star' }
       ],
-      rankList: []
+      rankList: [],
+      currentIndex: 'new'
     }
   },
   methods: {
     async fecthRank() {
-      const { list } = await _getGame()
+      const list = await _getGame()
       this.rankList = list
+    },
+    setActive(val) {
+      this.currentIndex = val
     }
   },
-  computed() {},
   components: {
-    rankList
+    rankContent
   },
   created() {
     this.fecthRank()
@@ -46,13 +50,15 @@ export default {
 @import '~@css/variables.less';
 @import '~@css/mixins.less';
 .r-main {
+  margin: 0 120px;
   .el-aside {
     padding: 20px 0;
     background-color: #fff;
     border: 1px solid #ccc;
     .box-shadow-in(#e4e4e4);
   }
-  .el-main {
+  /deep/.el-main {
+    padding: 0 20px 20px;
   }
   .ranks-tag {
     display: block;

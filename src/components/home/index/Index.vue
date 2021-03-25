@@ -4,7 +4,7 @@
     <el-carousel :interval="3000" type="card" height="300px"
       @change="handleChange($event)">
       <el-carousel-item v-for="(item,index) in noticeList" :key="item.id">
-        <div class="container">
+        <div class="container" @click="showNotice(item,index)">
           <img :src="bindURL(item.url)" alt="">
           <transition name="fade">
             <div class="banner" v-show="currentIndex === index">
@@ -31,13 +31,24 @@
         </a>
       </li>
     </ul>
+
+    <!-- 公告展示 -->
+    <el-dialog :visible.sync="noticeDialogVisible" width="30%">
+      <div class="d-head">
+        <span class="d-title">{{currentNotice.title}}</span>
+        <span class="d-date">{{currentNotice.createTime | formatDate}}</span>
+      </div>
+      <div class="d-main">
+        <div v-html="currentNotice.comment"></div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 // 公告对话框形式
 import { _getNoticeList } from '@api'
-import { bindURL } from '@utils'
+import { bindURL, convertDeepCopy } from '@utils'
 export default {
   data() {
     return {
@@ -66,7 +77,9 @@ export default {
           title: '游戏论坛',
           desc: '尽情交流游戏心得'
         }
-      ]
+      ],
+      noticeDialogVisible: false,
+      currentNotice: {}
     }
   },
   methods: {
@@ -78,6 +91,12 @@ export default {
     },
     handleChange(index) {
       this.currentIndex = index
+    },
+    showNotice(data, index) {
+      if (this.currentIndex === index) {
+        this.noticeDialogVisible = true
+        this.currentNotice = convertDeepCopy(data)
+      }
     }
   },
   computed: {},
@@ -91,7 +110,7 @@ export default {
 @import '~@css/mixins.less';
 @import '~@css/variables.less';
 
-.el-carousel  {
+.el-carousel {
   background-color: #fff;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -137,14 +156,6 @@ export default {
       text-indent: 0.5em;
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 
 .f-main {
@@ -207,5 +218,42 @@ export default {
       opacity: 0.8;
     }
   }
+}
+
+/deep/.el-dialog__body {
+  padding: 10px 20px 30px 20px;
+}
+.d-head {
+  div {
+    border-bottom: 1px solid #ccc;
+  }
+  .d-title {
+    display: block;
+    font-size: 28px;
+    font-size: #000;
+  }
+  .d-date {
+    display: block;
+    text-align: right;
+    font-size: 14px;
+    color: #777;
+    margin: 0 10px 20px 10px;
+  }
+}
+.d-main {
+  // text-indent: 2em;
+  text-align: left;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  line-height: 20px;
+  color: #666;
+  font-size: 15px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
