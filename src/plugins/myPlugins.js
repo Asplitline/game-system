@@ -15,7 +15,7 @@ MyPlugins.install = function (Vue, options) {
     })
     Vue.directive('hljs', {
         inserted (el) {
-            let blocks = el.querySelectorAll('pre code')
+            const blocks = el.querySelectorAll('pre code')
             blocks.forEach(b => {
                 hljs.highlightBlock(b)
             })
@@ -30,10 +30,12 @@ MyPlugins.install = function (Vue, options) {
         const hour = pad0(date.getHours())
         const minute = pad0(date.getMinutes())
         const second = pad0(date.getSeconds())
-        if (MODEL === DEFAULT)
+        if (MODEL === DEFAULT) {
             return `${year}-${month}-${day} ${hour}:${minute}:${second}`
-        else if (MODEL === MINI) {
+        } else if (MODEL === MINI) {
             return `${year}-${month}-${day}`
+        } else {
+            return `${year}-${month}-${day} ${hour}:${minute}`
         }
     })
 }

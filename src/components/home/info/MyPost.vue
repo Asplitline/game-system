@@ -42,6 +42,7 @@ export default {
     },
     currentPost(id) {
       const post = this.allPost.find((i) => {
+        console.log(i.id, id)
         return i.id === id
       })
       this.setCurrentPost(post)
@@ -61,5 +62,5 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 </style>

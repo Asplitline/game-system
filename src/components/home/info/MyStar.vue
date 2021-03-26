@@ -1,25 +1,30 @@
 <template>
   <div>
-    <el-table :data="filterStarList" style="width: 100%" key="myStar">
-      <el-table-column prop="gameName" label="游戏名称" width="180">
-      </el-table-column>
-      <el-table-column prop="createTime" label="创建日期" min-width="180">
-        <template v-slot="{row}">
-          {{row.createTime|formatDate}}
-        </template>
+    <template v-if="starList">
+      <el-table :data="filterStarList" style="width: 100%" key="myStar">
+        <el-table-column prop="gameName" label="游戏名称" width="180">
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建日期" min-width="180">
+          <template v-slot="{row}">
+            {{row.createTime|formatDate}}
+          </template>
 
-      </el-table-column>
-      <el-table-column prop="updateTime" label="更新日期" min-width="180">
-        <template v-slot="{row}">
-          {{row.updateTime|formatDate}}
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" min-width="100">
-        <template v-slot="{row}">
-          <el-button type="success" size="mini" @click="go(row.gameid)">跳转</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        </el-table-column>
+        <el-table-column prop="updateTime" label="更新日期" min-width="180">
+          <template v-slot="{row}">
+            {{row.updateTime|formatDate}}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" min-width="100">
+          <template v-slot="{row}">
+            <el-button type="success" size="mini" @click="go(row.gameid)">跳转</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
+    <template v-else>
+      暂无收藏记录
+    </template>
   </div>
 </template>
 
@@ -78,5 +83,5 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 </style>

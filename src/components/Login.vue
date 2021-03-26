@@ -55,7 +55,7 @@
             </transition>
           </div>
           <div class="form-item">
-            <input type="text" placeholder="密码" v-model="registerForm.password">
+            <input type="password" placeholder="密码" v-model="registerForm.password">
             <transition name="fade">
               <span class="error" v-show="registerRules.password">请输入密码</span>
             </transition>

@@ -41,7 +41,6 @@
           <template v-slot="{row}">
             <el-button type="primary" size="small" @click="showCategoryDialog(1,row)">修改
             </el-button>
-            <el-button type="success" size="small">详情</el-button>
             <el-button type="danger" size="small"
               @click="deleteById(_deleteCategory,fetchCategory,row.id,'分类')">删除
             </el-button>

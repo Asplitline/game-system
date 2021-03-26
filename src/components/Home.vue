@@ -47,12 +47,14 @@ export default {
     bindURL,
     logout() {
       sessionStorage.clear()
-      this.setHCurrentIndex()
       this.$router.push('/login')
     }
   },
   computed: {
     ...mapState({ currentIndex: 'hCurrentIndex', currentUser: 'currentUser' })
+  },
+  updated() {
+    this.setHCurrentIndex()
   },
   created() {
     this.setHCurrentIndex()

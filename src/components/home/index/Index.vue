@@ -20,7 +20,7 @@
     <!-- 功能模块 -->
     <ul class="f-main">
       <li class="f-item" v-for="(item,index ) in content" :key="index">
-        <a :href="item.url">
+        <a :href="'#'+item.url">
           <div class="f-img">
             <img :src="item.src" alt="">
           </div>

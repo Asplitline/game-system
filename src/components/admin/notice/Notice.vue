@@ -41,7 +41,8 @@
           <template v-slot="{row}">
             <el-button type="primary" size="small" @click="showNoticeDialog(1,row)">编辑
             </el-button>
-            <el-button type="success" size="small">详情</el-button>
+            <el-button type="success" size="small" @click="showNoticeDetailDialog(row)">详情
+            </el-button>
             <el-button type="danger" size="small"
               @click="deleteById(_deleteNotice,fetchNotice,row.id,'公告')">删除
             </el-button>
@@ -82,7 +83,16 @@
         </el-button>
       </span>
     </el-dialog>
-
+    <!-- 公告详情 -->
+    <el-dialog :visible.sync="noticeDetailDialogVisible" width="30%">
+      <div class="d-head">
+        <span class="d-title">{{currentNotice.title}}</span>
+        <span class="d-date">{{currentNotice.createTime | formatDate}}</span>
+      </div>
+      <div class="d-main">
+        <div v-html="currentNotice.comment"></div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -98,12 +108,14 @@ export default {
     return {
       noticeList: [],
       noticeDialogVisible: false,
+      noticeDetailDialogVisible: false,
       noticeForm: {},
       noticeRules: {
         title: [{ required: true, message: '输入公告标题', trigger: 'blur' }],
         comment: [{ required: true, message: '输入公告内容', trigger: 'blur' }],
         url: [{ required: true, message: '选择公告封面', trigger: 'blur' }]
-      }
+      },
+      currentNotice: {}
     }
   },
   methods: {
@@ -157,6 +169,11 @@ export default {
         this.fetchNotice()
         this.noticeDialogVisible = false
       })
+    },
+    // 显示公告详情
+    showNoticeDetailDialog(data) {
+      this.currentNotice = convertDeepCopy(data)
+      this.noticeDetailDialogVisible = true
     }
   },
   mixins: [aMixin],
@@ -171,5 +188,31 @@ export default {
 
 /deep/.el-table .cell {
   white-space: nowrap;
+}
+.d-head {
+  div {
+    border-bottom: 1px solid #ccc;
+  }
+  .d-title {
+    display: block;
+    font-size: 28px;
+    font-size: #000;
+  }
+  .d-date {
+    display: block;
+    text-align: right;
+    font-size: 14px;
+    color: #777;
+    margin: 0 10px 20px 10px;
+  }
+}
+.d-main {
+  // text-indent: 2em;
+  text-align: left;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  line-height: 20px;
+  color: #666;
+  font-size: 15px;
 }
 </style>

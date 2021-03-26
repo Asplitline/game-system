@@ -8,7 +8,7 @@
         </a>
       </el-aside>
       <el-main>
-        <rank-content :data="rankList" />
+        <rank-content :data="allGame" :list="miniCategoryList" :tag="currentIndex" />
       </el-main>
     </el-container>
   </div>
@@ -16,33 +16,41 @@
 
 <script>
 import rankContent from './RankContent'
-import { _getGame } from '@api'
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
       ranks: [
-        { name: '最新上架', tag: 'new' },
+        { name: '最高热度', tag: 'star' },
         { name: '口碑佳作', tag: 'score' },
-        { name: '最高热度', tag: 'star' }
+        { name: '最新上架', tag: 'new' }
       ],
-      rankList: [],
-      currentIndex: 'new'
+      currentIndex: 'star'
     }
   },
   methods: {
-    async fecthRank() {
-      const list = await _getGame()
-      this.rankList = list
-    },
+    ...mapActions(['fetchAllGame', 'fetchAllCategory']),
     setActive(val) {
       this.currentIndex = val
+    }
+  },
+  computed: {
+    ...mapState(['allGame', 'allCategory']),
+    ...mapGetters(['getMiniCategoryList']),
+    miniCategoryList() {
+      return this.getMiniCategoryList()
     }
   },
   components: {
     rankContent
   },
-  created() {
-    this.fecthRank()
+  async created() {
+    if (this.allGame === null) {
+      await this.fetchAllGame()
+    }
+    if (this.allCategory === null) {
+      this.fetchAllCategory()
+    }
   }
 }
 </script>

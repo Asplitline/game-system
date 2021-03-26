@@ -52,7 +52,12 @@ export default new Vuex.Store({
         return item.userid === id
       })
     },
-    getMimiGameList: (state) => () => {
+    getStarByGameId: (state) => (id) => {
+      return state.allStar && state.allStar.filter(item => {
+        return item.gameid === id
+      })
+    },
+    getMiniGameList: (state) => () => {
       return state.allGame.map(item => {
         return { id: item.id, name: item.name }
       })
@@ -103,7 +108,7 @@ export default new Vuex.Store({
       const res = await _getUser()
       commit('setAllUser', res)
     },
-    async fetchAllPost ({ commit }, query) {
+    async fetchAllPost ({ commit }, query = { size: 999 }) {
       const { list } = await _getPostList(query)
       commit('setAllPost', list)
     },

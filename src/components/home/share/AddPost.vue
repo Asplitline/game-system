@@ -14,7 +14,7 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <p-back @back="backToLast()" />
+    <p-back/>
   </div>
 </template>
 

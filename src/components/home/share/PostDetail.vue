@@ -17,20 +17,19 @@
       <button class="btn-comment" @click="submitComment()"
         :disabled="commentIsEmpty">评论</button>
     </div>
-    <div class="p-clist">
-      <img :src="bindURL(handlePost.avatar)" alt="" class="p-avatar">
+    <div class="p-clist" v-for="item in handleCommentList" :key="item.id">
+      <img :src="bindURL(item.avatar)" alt="" class="p-avatar">
       <div class="p-clist-content">
-        <span class="p-author">哈哈</span>
-        <span class="p-date">{{Date.now()|formatDate}}</span>
+        <span class="p-author">{{item.author}}</span>
+        <span class="p-date">{{item.createTime|formatDate}}</span>
         <div class="p-content">
-          感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，
-          讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好感谢，讲的很好</div>
+          {{item.content}}</div>
       </div>
       <div class="p-clist-tips">
         <!-- <a href="javascript:;"><i class="iconfont icon-appstore"></i>回复</a> -->
       </div>
     </div>
-    <p-back @back="backToLast()" />
+    <p-back />
   </div>
 </template>
 
@@ -63,6 +62,7 @@ export default {
       if (success) {
         this.$message.success('评论成功')
         this.comment = ''
+        this.fetchComment()
       } else {
         this.$message.error('评论失败')
       }
@@ -78,21 +78,28 @@ export default {
       }
     },
     async fetchComment() {
-      const { comment } = await _getCommentByPostId(this.id)
+      const comment = await _getCommentByPostId(this.id)
       this.commentList = comment
     }
   },
   computed: {
     ...mapState(['currentPost', 'currentUser']),
-    ...mapGetters(['getUserAvatarById']),
+    ...mapGetters(['getUserAvatarById', 'getUserNameById']),
     handlePost() {
-      let post = convertDeepCopy(this.currentPost)
+      const post = convertDeepCopy(this.currentPost)
       post.avatar = this.getUserAvatarById(post.authorId)
       return post
     },
     // 评论框为空检测
     commentIsEmpty() {
       return this.comment.trim().length === 0
+    },
+    handleCommentList() {
+      return this.commentList.map((i) => {
+        i.avatar = this.getUserAvatarById(i.userId)
+        i.author = this.getUserNameById(i.userId)
+        return i
+      })
     }
   },
   components: {
@@ -147,6 +154,10 @@ export default {
     }
     .p-content {
       color: #333;
+      font-size: 16px;
+      /deep/img {
+        width: 100%;
+      }
     }
   }
   .p-comment {
@@ -202,7 +213,7 @@ export default {
   .p-clist {
     display: flex;
     padding: 1em 2em;
-    padding-left: 2em;  
+    padding-left: 2em;
     border-bottom: 1px solid #ccc;
     .p-clist-content {
       padding-left: 1.5em;
@@ -215,7 +226,7 @@ export default {
     }
     .p-date {
       color: #8a9aa9;
-      margin-left: 1em;
+      margin-left: 0.5em;
       font-size: 14px;
     }
     .p-content {
@@ -223,6 +234,9 @@ export default {
       font-size: 14px;
       line-height: 20px;
       max-width: 600px;
+      img {
+        width: 100%;
+      }
     }
   }
   .p-back {

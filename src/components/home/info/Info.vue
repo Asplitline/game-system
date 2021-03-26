@@ -107,6 +107,7 @@ export default {
     // 获取收藏
     fetchStar() {
       this.starList = this.getStarById(this.currentUser.id)
+      console.log(this.starList)
     },
     // 跳转
     goTo(id, flag) {
@@ -119,9 +120,9 @@ export default {
   },
   computed: {
     ...mapState(['currentUser', 'allGame']),
-    ...mapGetters(['getStarById', 'getMimiGameList']),
+    ...mapGetters(['getStarById', 'getMiniGameList']),
     miniGameList() {
-      return this.getMimiGameList()
+      return this.getMiniGameList()
     }
   },
   components: {

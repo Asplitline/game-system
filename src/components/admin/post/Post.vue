@@ -41,7 +41,7 @@
           <template v-slot="{row}">
             <el-button type="primary" size="small" @click="goPostEditById(row)">修改
             </el-button>
-            <el-button type="success" size="small" @click="goPostDetailById(row.id)">详情
+            <el-button type="success" size="small" @click="goPostDetailById(row)">详情
             </el-button>
             <el-button type="danger" size="small"
               @click="deleteById(_deletePost,fetchPost,row.id,'文章')">删除
@@ -82,11 +82,16 @@ export default {
       this.postList = list
       this.total = total
     },
+    // 跳转到修改界面
     goPostEditById(data) {
       this.setCurrentPost(data)
       this.$router.push('/_dPost/' + data.id)
     },
-    goPostDetailById(data) {}
+    // 跳转到详情页面
+    goPostDetailById(data) {
+      this.setCurrentPost(data)
+      this.$router.push('/share/' + data.id)
+    }
   },
   computed: {
     ...mapState(['allUser']),

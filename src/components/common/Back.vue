@@ -11,7 +11,8 @@ export default {
   },
   methods: {
     back() {
-      this.$emit('back')
+      history.go(-1)
+      // this.$emit('back')
     }
   }
 }

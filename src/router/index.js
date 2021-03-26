@@ -83,12 +83,13 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes
 })
 
 router.beforeEach((to, from, next) => {
-  switch (to.path) {
+  const path = '/' + to.path.split('/')[1]
+  switch (path) {
     case '/_category':
     case '/_comment':
     case '/_game':
@@ -97,14 +98,14 @@ router.beforeEach((to, from, next) => {
     case '/_AddPost':
     case '/_user':
     case '/_notice':
-      window.sessionStorage.setItem('aCurrentIndex', to.path)
+      window.sessionStorage.setItem('aCurrentIndex', path)
       break
     case '/game':
     case '/index':
     case '/info':
     case '/rank':
     case '/share':
-      window.sessionStorage.setItem('hCurrentIndex', to.path)
+      window.sessionStorage.setItem('hCurrentIndex', path)
       break
   }
   if (sessionStorage.getItem('currentUser') === null) {

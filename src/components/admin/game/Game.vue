@@ -46,7 +46,8 @@
           <template v-slot="{row}">
             <el-button type="primary" size="small" @click="showGameDialog(1,row)">编辑
             </el-button>
-            <el-button type="success" size="small">详情</el-button>
+            <el-button type="success" size="small" @click="goGameDetail(row)">详情
+            </el-button>
             <el-button type="danger" size="small"
               @click="deleteById(_deleteGame,fetchGame,row.id,'游戏')">删除</el-button>
           </template>
@@ -106,7 +107,7 @@
 <script>
 import { _getGameList, _addGame, _editGame, _deleteGame } from '@api'
 import { aMixin } from '@mixins'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { convertDeepCopy, bindURL } from '@utils'
 const ADD = 0
 const EDIT = 1
@@ -132,6 +133,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchAllCategory']),
+    ...mapMutations(['setCurrentGame']),
     _deleteGame,
     bindURL,
     // 获取游戏
@@ -168,6 +170,11 @@ export default {
         }
         this.gameDialogVisible = false
       })
+    },
+    // 跳转到游戏详情
+    goGameDetail(data) {
+      this.setCurrentGame(data)
+      this.$router.push('/game/' + data.id)
     },
     // 图片上传后回调
     handleAvatarSuccess(res) {

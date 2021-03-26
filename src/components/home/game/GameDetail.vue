@@ -23,7 +23,7 @@
             class="iconfont icon-icon-test2"></i>{{starText}}</button>
       </div>
       <pTime :date="filterGame.createTime"></pTime>
-      <pBack @back="backToLast()" />
+      <pBack />
     </el-main>
   </el-container>
 </template>
@@ -69,7 +69,7 @@ export default {
       const star = this.currentUserStar.find((item) => {
         return item.gameid === this.currentGame.id
       })
-      this.currentStar = star
+      this.setStar(star)
       return star !== undefined
     }
   },
@@ -112,6 +112,9 @@ export default {
       } else {
         console.log('star error')
       }
+    },
+    setStar(data) {
+      this.currentStar = data
     },
     // 处理收藏
     handleStar() {

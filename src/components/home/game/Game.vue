@@ -104,12 +104,12 @@ export default {
     gameItem,
     gameTab
   },
-  created() {
+  async created() {
     if (this.allCategory === null) {
       this.fetchAllCategory()
     }
     this.handleCategory()
-    this.fetchGame()
+    await this.fetchGame()
   }
 }
 </script>

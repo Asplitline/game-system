@@ -9,9 +9,6 @@
       <el-divider></el-divider>
       <el-row :gutter="20" class="top-search">
         <el-col :span="6">
-          <!-- <el-input placeholder="请输入内容" v-model="query.keyword">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input> -->
         </el-col>
         <el-col :span="6" :offset="12">
           <span></span>
@@ -37,7 +34,6 @@
         </el-table-column>
         <el-table-column label="操作" min-width="180">
           <template v-slot="{row}">
-            <el-button type="success" size="small">详情</el-button>
             <el-button type="danger" size="small"
               @click="deleteById(_deleteComment,fetchComment,row.id,'评论')">删除
             </el-button>
@@ -91,7 +87,7 @@ export default {
   created() {
     this.fetchComment()
     this.fetchAllUser()
-    this.fetchAllPost({ size: 999 })
+    this.fetchAllPost()
   },
   mixins: [aMixin]
 }
@@ -100,6 +96,9 @@ export default {
 <style lang="less" scoped>
 @import '~@/assets/css/common.less';
 
+/deep/.el-table .cell {
+  white-space: nowrap;
+}
 .top-search {
   margin: 0;
 }
