@@ -10,7 +10,7 @@
               <span class="error" v-show="loginRules.username">请输入账号</span>
             </transition>
           </div>
-          <div class="form-item">
+          <div class="form-item" :class="{'form-item-error':loginRules.password}">
             <input type="password" placeholder="密码" v-model="loginForm.password"
               @keyup.enter="login()">
             <transition name="fade">
@@ -107,12 +107,12 @@ export default {
         password: ''
       },
       registerRules: {
-        username: '',
-        name: '',
-        email: '',
-        phone: '',
-        qq: '',
-        password: ''
+        username: false,
+        name: false,
+        email: false,
+        phone: false,
+        qq: false,
+        password: false
       }
     }
   },
@@ -121,6 +121,11 @@ export default {
     // 转换登录
     toggleLogin() {
       this.isActive = !this.isActive
+      if (this.isActive === false) {
+        this.reset(this.registerForm, this.registerRules)
+      } else {
+        this.reset(this.loginForm, this.loginRules)
+      }
     },
     // 自定义验证
     validate(form, rules) {
@@ -159,8 +164,6 @@ export default {
         } else {
           this.$message.error('账号或密码错误')
         }
-      } else {
-        return
       }
     },
     // 重置
@@ -193,8 +196,6 @@ export default {
         } else {
           this.$message.error(message)
         }
-      } else {
-        return
       }
     }
   }
@@ -288,6 +289,11 @@ export default {
           left: 20px;
           color: #f56c6c;
           font-size: 12px;
+        }
+      }
+      .form-item-error {
+        input {
+          border-color: #f56c6c;
         }
       }
       .btns {

@@ -20,17 +20,13 @@ export function _get (url) {
     }
 }
 
+/**
+ * @param {*} url 
+ * @param {*} model 0(传统风格) 1(restful风格) 2(不处理)
+ * @returns 
+ */
 export function _post (url, model = 1) {
     return function (params) {
-        // let URL
-        // if (model === 1) {
-        //     URL = `${url}/${params}`
-        //     console.log(URL)
-        // } else if (model === 0) {
-        //     URL = `${url}?postId=${params}`
-        // } else {
-        //     URL = `${url}?${params}`
-        // }
         if (model === 1) {
             return $http.post(url, params)
                 .then(res => {
@@ -54,11 +50,7 @@ export function _post (url, model = 1) {
         }
     }
 }
-/**
- * @param {*} url
- * @param {*} model  0(传统风格) 1(restful风格) 2(不处理)
- * @returns
- */
+
 export function _delete (url, model = 1) {
     return function (params) {
         let URL
